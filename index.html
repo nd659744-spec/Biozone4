@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
+<meta name="theme-color" content="#0d8a5f">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 38 38'%3E%3Crect x='1' y='1' width='36' height='36' rx='10' fill='%230d8a5f'/%3E%3Cellipse cx='19' cy='19' rx='12' ry='6' fill='none' stroke='%23ffffff' stroke-width='1.5' transform='rotate(-18 19 19)'/%3E%3Ccircle cx='30.4' cy='15.3' r='1.8' fill='%23ffffff'/%3E%3Cpath d='M19 12.2L20.59 16.82L25.47 16.9L21.57 19.83L23 24.5L19 21.7L15 24.5L16.43 19.83L12.53 16.9L17.41 16.82Z' fill='%23ffffff'/%3E%3C/svg%3E">
+<title>Biozone — A/L Science Progress Companion</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+html{font-size:10px}
+html{font-size:clamp(7.5px,2.6667vw,12.1px)}
+@media(min-width:768px){html{font-size:14.3px}}
+@media(min-width:1024px){html{font-size:15.9px}}
+html,body{width:100%;height:100%;overflow:hidden;overscroll-behavior:none;background:#d5e5dc}
+body{
+  position:fixed;inset:0;width:100%;height:100%;touch-action:manipulation;
+  font-family:'Sora','Noto Sans Sinhala','Sinhala Sangam MN','Iskoola Pota',sans-serif;color:#22302a;
+  background:#d5e5dc;
+  background-image:radial-gradient(rgba(60,120,90,.12) .1rem,transparent .13rem);
+  background-size:1.8rem 1.8rem;
+  display:flex;justify-content:center;align-items:center;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;
+  font-size:1rem;
+}
+.app{-webkit-user-select:none;user-select:none}
+.fin{-webkit-user-select:text;user-select:text}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;touch-action:manipulation}
+button:focus-visible,.examcard:focus-visible,.fin:focus-visible{outline:.2rem solid #0d8a5f;outline-offset:.2rem}
+
+.app{
+  width:100%;
+  max-width:100%;
+  height:100%;
+  height:100dvh;
+  background:#eef7f1;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  position:relative;
+  -webkit-touch-callout:none;
+  box-shadow:0 1rem 4rem rgba(20,50,35,0.25);
+}
+@media(min-width:480px){
+  .app{
+    max-width:460px;
+    height:min(920px,100dvh);
+    border-radius:2.8rem;
+    border:.1rem solid #b8d4c2;
+  }
+}
+@media(min-width:768px){
+  .app{
+    max-width:100%;
+    height:100dvh;
+    border-radius:0;
+    border:none;
+  }
+}
+@media(min-width:1024px){
+  .app{
+    max-width:100%;
+    height:100dvh;
+    border-radius:0;
+  }
+}
+@media(min-width:768px){
+  .toprow,.examcard,.navseg,.main .view{max-width:62rem;margin-left:auto;margin-right:auto}
+  .navseg{margin-top:.35rem;margin-bottom:0}
+}
+
+.topbar{
+  flex:none;
+  position:relative;
+  padding:calc(.3rem + env(safe-area-inset-top)) 1rem .4rem;
+  overflow:hidden;
+  background:linear-gradient(160deg,#dff0e2 0%,#eef8ef 46%,#f6fcf6 100%);
+}
+.topbar::before{content:"";position:absolute;left:0;right:0;bottom:0;height:1.6rem;pointer-events:none;opacity:.5;
+  background:radial-gradient(4rem 1.6rem at 8% 100%,#cbe7d4 60%,transparent 61%),
+             radial-gradient(7rem 2rem at 30% 100%,#d8efe0 60%,transparent 61%),
+             radial-gradient(5rem 1.6rem at 58% 100%,#cfe9d9 60%,transparent 61%),
+             radial-gradient(8rem 2rem at 88% 100%,#d8efe0 60%,transparent 61%)}
+.toprow{position:relative;display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.25rem}
+.brand{display:flex;align-items:center;gap:.6rem}
+.logotile{width:2.8rem;height:2.8rem;flex:none;border-radius:.8rem;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(150deg,#17a06c,#0b6b45);box-shadow:0 .2rem .6rem rgba(13,110,72,.3)}
+.bname{font-weight:800;font-size:1.45rem;line-height:1.05;color:#0b5c3d;letter-spacing:.02rem}
+.bsub{font-size:.78rem;color:#4e8d6e;font-weight:600;margin-top:.1rem}
+.tag{text-align:right;font-size:.72rem;font-weight:800;color:#2e8b63;line-height:1.25;flex:none;position:relative;padding-right:1.2rem}
+.tagleaf{position:absolute;right:0;bottom:-.2rem}
+
+.examcard{position:relative;display:flex;align-items:center;gap:.9rem;width:100%;text-align:left;
+  background:linear-gradient(135deg,#e1f7e7,#cbeed5);border:.18rem solid #aadeb9;border-radius:1.3rem;
+  padding:1.1rem 1.2rem;box-shadow:0 .35rem .8rem rgba(40,90,60,.1);
+  cursor:pointer;transition:transform .15s ease}
+.examcard:active{transform:scale(.985)}
+.extile{width:4.8rem;height:4.8rem;flex:none;border-radius:1.1rem;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(150deg,#149a67,#0b6b45);box-shadow:0 .3rem .8rem rgba(13,110,72,.35)}
+.exmid{flex:1;min-width:0}
+.exlbl{display:block;font-size:1.2rem;font-weight:800;color:#14532d;line-height:1.1;white-space:nowrap}
+.exnums{display:flex;align-items:baseline;gap:.55rem;margin-top:.2rem;flex-wrap:nowrap}
+.exnum{font-size:2.6rem;font-weight:800;color:#095b3c;line-height:1;letter-spacing:-.05rem}
+.exunit{font-size:1.1rem;font-weight:800;color:#2d6e4b;white-space:nowrap}
+.exdiv{width:.12rem;height:1.9rem;background:#a1d7b3;align-self:center;flex:none;margin:0 .25rem}
+.exmsg{font-size:1.45rem;font-weight:800;color:#0b6b47;line-height:1.2}
+.exmsg.dim{color:#5f8a71;font-size:1.25rem}
+.datepill{flex:none;display:flex;align-items:center;gap:.35rem;background:#fff;border-radius:.9rem;padding:.65rem .8rem;
+  box-shadow:0 .15rem .5rem rgba(30,80,55,.1)}
+.dpdate{font-size:1.05rem;font-weight:800;color:#14532d;white-space:nowrap}
+.dpchev{color:#7fb896;display:flex}
+
+.navseg{flex:none;display:flex;gap:.3rem;background:#fff;border:.1rem solid #dcece1;border-radius:1.2rem;
+  padding:.25rem;margin:.35rem .8rem 0;box-shadow:0 .1rem .3rem rgba(40,90,60,.04)}
+.navbtn{flex:1;display:flex;flex-direction:column;align-items:center;gap:.1rem;padding:.3rem .2rem .2rem;border-radius:.9rem;
+  font-size:.88rem;font-weight:700;color:#7d8a80;transition:all .18s ease;line-height:1}
+.navbtn svg{display:block}
+.navbtn.active{background:linear-gradient(150deg,#128a5c,#0b6b45);color:#fff;box-shadow:0 .2rem .8rem rgba(13,110,72,.25)}
+
+.main{
+  flex:1;
+  overflow-y:auto;
+  overflow-x:hidden;
+  overscroll-behavior-y:contain;
+  -webkit-overflow-scrolling:touch;
+  padding:.8rem .8rem calc(7rem + env(safe-area-inset-bottom));
+}
+.view{display:none}
+.card{background:#fff;border:.1rem solid #e2efe4;border-radius:1.2rem;padding:.8rem .9rem;margin-bottom:.7rem;
+  box-shadow:0 .1rem .2rem rgba(40,90,60,.03),0 .2rem .8rem rgba(40,90,60,.03)}
+.ct{font-size:1.15rem;font-weight:800;color:#173a2b}
+.csub{font-size:.9rem;color:#6d8577;margin-top:.1rem}
+.ctrow{display:flex;align-items:center;gap:.5rem}
+
+.heroCard{position:relative;overflow:hidden;display:flex;gap:.9rem;padding:.9rem 1rem;
+  background:linear-gradient(140deg,#f2faf4 0%,#ffffff 52%,#f4fbf6 100%)}
+.heroL{flex:none;display:flex;flex-direction:column;align-items:flex-start}
+.heroLbl{font-size:1rem;font-weight:700;color:#3d5a4a;margin-top:.1rem}
+.heroNum{font-size:3.2rem;font-weight:800;line-height:1;color:#1f2f27;letter-spacing:-.12rem}
+.tierchip{display:inline-flex;align-items:center;gap:.3rem;margin-top:.4rem;color:#fff;font-size:.95rem;font-weight:800;
+  padding:.2rem .7rem .2rem .3rem;border-radius:999px;box-shadow:0 .1rem .4rem rgba(30,70,50,.15)}
+.heroR{flex:1;min-width:0;display:flex;flex-direction:column}
+.barrow{display:flex;align-items:center;gap:.5rem}
+.gtrack{flex:1;height:.6rem;background:#e5efe4;border-radius:999px;overflow:hidden}
+.gfill{height:100%;border-radius:999px;background:linear-gradient(90deg,#22c58b,#0d8a5f);transition:width .5s ease}
+.barlbl{font-size:.95rem;font-weight:800;color:#14532d;flex:none}
+
+.mtrack{position:relative;height:3.4rem;margin-top:.6rem}
+.mtrackin{position:relative;display:block;height:3.4rem;margin:0 1.4rem}
+.mline{position:absolute;left:0;right:0;top:.6rem;height:.2rem;background:#dfe9dc;border-radius:.2rem}
+.mfill{position:absolute;left:0;top:.6rem;height:.2rem;background:#0d8a5f;border-radius:.2rem;transition:width .5s ease}
+.mmed{position:absolute;top:0;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;width:2.8rem}
+.mmed.dim{opacity:.5}
+.mnum{font-size:.85rem;font-weight:800;color:#5c7a66;margin-top:.1rem}
+.mcap{font-size:.9rem;font-weight:700;color:#41705a;line-height:1.3;margin-top:auto}
+
+.addgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-top:.6rem}
+.addb{position:relative;display:flex;align-items:center;gap:.4rem;color:#fff;border-radius:1rem;padding:.7rem .4rem .7rem .5rem;
+  box-shadow:0 .1rem .5rem rgba(40,70,90,.12);transition:transform .12s ease,filter .15s ease;text-align:left}
+.addb:hover{filter:brightness(1.07)}
+.addb:active{transform:scale(.95)}
+.abname{display:block;font-size:1rem;font-weight:800;line-height:1.1}
+.absub{display:block;font-size:.8rem;font-weight:600;opacity:.92;line-height:1.1}
+.abstar{position:absolute;right:.3rem;bottom:.2rem;opacity:.95}
+
+.shead2{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.6rem}
+.navyPill{background:#1e2a4a;color:#fff;font-size:.95rem;font-weight:800;padding:.2rem .8rem;border-radius:999px;flex:none}
+.starfield{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:.35rem;min-height:2.8rem;justify-items:center}
+.starb{width:2.4rem;height:2.4rem;display:flex;align-items:center;justify-content:center;border-radius:.5rem;transition:background .15s ease}
+.starb:hover{background:#eef7ef}
+.swrap{display:flex}
+.starb.pop .swrap{animation:bzpop .5s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes bzpop{0%{transform:scale(0)}55%{transform:scale(1.3)}80%{transform:scale(.94)}100%{transform:scale(1)}}
+.shinesvg{animation:bzshine 2.8s ease-in-out infinite}
+@keyframes bzshine{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(1.16);opacity:1}}
+@media(prefers-reduced-motion:reduce){.shinesvg{animation:none}}
+.morerow{display:flex;align-items:center;justify-content:space-between;margin-top:.5rem}
+.moret{font-size:.95rem;font-weight:600;color:#8fa396}
+.morebtn{width:2.4rem;height:2.4rem;border-radius:50%;background:#fff;border:.15rem solid #dbe9de;color:#5c7a66;
+  font-size:1.1rem;font-weight:800;display:flex;align-items:center;justify-content:center;line-height:1;box-shadow:0 .1rem .3rem rgba(40,90,60,.06)}
+.morebtn:active{transform:scale(.92)}
+.shint{font-size:.8rem;color:#93a89a;margin-top:.4rem}
+.emptystars{grid-column:1/-1;border:.15rem dashed #cfe3d4;border-radius:.9rem;padding:1.2rem .8rem;text-align:center;color:#6d8577;font-size:.95rem;font-weight:500;width:100%}
+
+.banner{position:relative;overflow:hidden;display:flex;align-items:center;gap:.7rem;border-radius:1.2rem;padding:.7rem .9rem;
+  background:linear-gradient(100deg,#e0f3e7 0%,#f2fbf4 55%,#e8f6ec 100%);border:.1rem solid #d5ecdc;margin-bottom:.7rem}
+.bbooks{flex:none;display:flex;transform:scale(0.85);transform-origin:left center}
+.bnote{flex:none;transform:rotate(-6deg);background:#fffdf4;border:.1rem solid #eee6cd;border-radius:.4rem;
+  padding:.2rem .5rem;font-size:.75rem;font-weight:700;font-style:italic;color:#4b4437;line-height:1.2;text-align:center;
+  box-shadow:0 .1rem .4rem rgba(60,50,30,.1)}
+.btext{flex:1;font-size:1.1rem;font-weight:800;color:#14532d;line-height:1.35}
+
+.bkrow{display:flex;align-items:center;gap:.4rem}
+.bkttl{font-size:.95rem;font-weight:800;color:#173a2b}
+.bksp{flex:1}
+.bkpill{display:inline-flex;align-items:center;gap:.3rem;font-size:.85rem;font-weight:800;padding:.3rem .6rem;border-radius:.5rem;
+  transition:transform .12s ease,filter .15s ease;line-height:1;white-space:nowrap}
+.bkpill:active{transform:scale(.95)}
+.bkpill:hover{filter:brightness(1.06)}
+.bkpill.green{background:linear-gradient(150deg,#129a67,#0b6b45);color:#fff;box-shadow:0 .1rem .4rem rgba(13,110,72,.2)}
+.bkpill.white{background:#fff;border:.15rem solid #d5e6d8;color:#14532d}
+.bkmnote{font-size:.75rem;color:#93a89a;font-weight:600;margin-top:.3rem;line-height:1.3}
+.rwarn{display:flex;gap:.4rem;align-items:flex-start;background:#fdf4e7;border:.1rem solid #f0ddb8;border-radius:.8rem;
+  padding:.5rem .7rem;margin-top:.5rem;font-size:.85rem;font-weight:700;color:#8a5a1e;line-height:1.35}
+
+.footpill{display:flex;align-items:center;justify-content:center;gap:.3rem;background:#0d6b4a;color:#e7f8ee;
+  font-size:.85rem;font-weight:600;padding:.5rem .8rem;border-radius:999px;text-align:center;
+  box-shadow:0 .1rem .6rem rgba(13,107,74,.2)}
+
+.strip{display:grid;grid-template-columns:repeat(4,1fr)}
+.strip.c3{grid-template-columns:repeat(3,1fr)}
+.stcell{padding:.1rem .2rem;text-align:center}
+.stcell+.stcell{border-left:.1rem solid #ecf4ec}
+.stval{font-size:1.4rem;font-weight:800;color:#173a2b}
+.stlbl{font-size:.8rem;color:#6d8577;font-weight:600;margin-top:.1rem}
+
+.segs{display:flex;background:#eef5ee;border-radius:.6rem;padding:.2rem;margin:.7rem 0 .5rem;gap:.2rem}
+.seg{flex:1;font-size:.95rem;font-weight:600;color:#6d8577;padding:.35rem .2rem;border-radius:.5rem;transition:all .18s ease}
+.seg.active{background:#fff;color:#173a2b;box-shadow:0 .1rem .2rem rgba(40,90,60,.1)}
+.chartmeta{display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem;min-height:1.6rem;gap:.3rem}
+.cmeta{font-size:.9rem;color:#5c7a66;font-weight:600}
+.mright{display:flex;align-items:center;gap:.3rem;flex-wrap:nowrap}
+.avgchip{font-size:.8rem;font-weight:800;padding:.15rem .5rem;border-radius:999px;white-space:nowrap;
+  background:#fdf8ea;color:#8d7f5f;border:.1rem dashed #d3bd7f}
+.tchip{font-size:.85rem;font-weight:700;padding:.15rem .5rem;border-radius:999px;white-space:nowrap}
+.tchip.up{background:#e4f6ec;color:#0b8a57}
+.tchip.down{background:#fdeaea;color:#c0392b}
+.tchip.flat{background:#eef5ee;color:#6d8577}
+.plotrow{display:flex}
+.yax{position:relative;width:2.2rem;flex:none;margin-right:.2rem}
+.yax span{position:absolute;right:0;transform:translateY(50%);font-size:.8rem;color:#93a89a;font-weight:600}
+.plot{position:relative;flex:1;height:14rem;border-bottom:.2rem solid #cfe3d4}
+.gl{position:absolute;left:0;right:0;height:0;border-top:.1rem dashed #e6f0e6}
+.barsrow{position:absolute;inset:0;display:flex;align-items:flex-end}
+.col{flex:1;height:100%;position:relative;display:flex;align-items:flex-end;justify-content:center}
+.bstack{width:52%;display:flex;flex-direction:column-reverse;transform-origin:bottom;animation:bzgrow .45s ease-out}
+.monthly .bstack{width:36%}
+.sg{min-height:.3rem}
+.sg:not(:first-child){box-shadow:inset 0 .1rem 0 rgba(255,255,255,.45)}
+.sg.top{border-radius:.2rem .2rem 0 0}
+.bstub{width:52%;height:.3rem;background:#cfdfcf;border-radius:.2rem;transform-origin:bottom;animation:bzgrow .45s ease-out}
+.monthly .bstub{width:36%}
+@keyframes bzgrow{from{transform:scaleY(0)}}
+.bval{position:absolute;left:50%;transform:translateX(-50%);font-size:1rem;font-weight:800;color:#173a2b;white-space:nowrap;line-height:1}
+.monthly .bval{font-size:.95rem}
+.bval.zero{color:#a9b6ab}
+.bval.gold{color:#d9a13b}
+.avgline{position:absolute;left:0;right:0;border-top:.15rem dashed #b08d4a;pointer-events:none;z-index:3;
+  filter:drop-shadow(0 0 .2rem rgba(255,255,255,.95))}
+.plot-empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;color:#93a89a;
+  font-size:.95rem;font-weight:600;padding:0 .8rem;line-height:1.4;pointer-events:none}
+.xrow{display:flex;padding-left:2.4rem;margin-top:.3rem}
+.xrow span{flex:1;text-align:center;font-size:.8rem;color:#5c7a66;font-weight:700;overflow:hidden;white-space:nowrap}
+.legend{display:flex;gap:.8rem;justify-content:center;margin-top:.7rem;flex-wrap:wrap}
+.litem{display:flex;align-items:center;gap:.3rem;font-size:.85rem;color:#5c7a66;font-weight:600}
+.lsq{width:.7rem;height:.7rem;border-radius:.2rem;flex:none}
+
+.stepper{display:flex;align-items:center;gap:.8rem;margin:.7rem 0 .9rem}
+.stbtn{width:2.4rem;height:2.4rem;border-radius:50%;border:.15rem solid #d5e6d8;background:#fff;font-size:1.2rem;font-weight:800;
+  color:#173a2b;display:flex;align-items:center;justify-content:center;line-height:1;transition:all .15s ease}
+.stbtn:hover{border-color:#0d8a5f;color:#0b7a4f}
+.stbtn:active{transform:scale(.9)}
+.stvalbig{font-size:1.6rem;font-weight:800;min-width:3rem;text-align:center;color:#173a2b}
+.goaltrack{height:.6rem;background:#eef5ee;border-radius:.3rem;overflow:hidden}
+.goalfill{height:100%;border-radius:.3rem;background:#0d8a5f;transition:width .5s ease}
+.goalfill.gold{background:#d9a13b}
+.gtext{font-size:.9rem;font-weight:600;color:#5c7a66;margin-top:.4rem}
+.gtext.gold{color:#b5822a}
+
+.donutrow{display:flex;align-items:center;gap:.9rem;margin-top:.7rem}
+.dwrap{position:relative;width:8.2rem;height:8.2rem;flex:none}
+.dwrap svg{display:block}
+.dc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.dc b{font-size:1.6rem;font-weight:800;color:#173a2b}
+.dc span{font-size:.75rem;color:#6d8577;font-weight:600}
+.dlegend{flex:1;min-width:0}
+.dlrow{display:flex;align-items:center;gap:.4rem;padding:.3rem 0;font-size:.95rem;font-weight:600;color:#3d5a4a}
+.dlrow+.dlrow{border-top:.1rem solid #eef5ee}
+.dlname{flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.dlpct{color:#93a89a;font-size:.85rem;margin-right:.2rem}
+.dlct{font-weight:800;min-width:1.2rem;text-align:right;color:#173a2b}
+
+.heatcard{padding:1.1rem 1rem .9rem}
+.hhead{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.9rem;gap:.5rem}
+.hpill{background:#e9f0ec;color:#3e6650;font-size:.9rem;font-weight:800;padding:.3rem .8rem;border-radius:999px;flex:none}
+.hgrid{display:grid;grid-template-columns:2.2rem repeat(15,minmax(0,1fr));grid-auto-rows:1.2rem;gap:.3rem}
+.hlab{font-size:.8rem;color:#8fa396;font-weight:700;display:flex;align-items:center}
+.hcell{border-radius:.35rem}
+.hc0{background:#e8ecef}.hc1{background:#c9ecd9}.hc2{background:#7fd8ab}.hc3{background:#34bd82}.hc4{background:#0f8f5b}
+.hcell.today{box-shadow:0 0 0 .15rem #d9a13b;border-radius:.4rem}
+.hleg{display:flex;align-items:center;gap:.3rem;justify-content:flex-end;margin-top:.8rem;font-size:.8rem;color:#8fa396;font-weight:600}
+.hsw{width:.95rem;height:.95rem;border-radius:.25rem}
+
+.ins{display:flex;gap:.5rem;padding:.4rem 0;font-size:.98rem;line-height:1.35;color:#3d5a4a;font-weight:500;align-items:flex-start}
+.ins+.ins{border-top:.1rem solid #eef5ee}
+.ins.gray{color:#93a89a}
+.idot{width:.55rem;height:.55rem;border-radius:50%;flex:none;margin-top:.4rem}
+
+.subrow{display:flex;align-items:center;gap:.5rem;padding:.5rem 0;font-size:1rem;font-weight:600;color:#3d5a4a}
+.subrow+.subrow{border-top:.1rem solid #eef5ee}
+.sq{width:.8rem;height:.8rem;border-radius:.2rem;flex:none}
+.subct{margin-left:auto;font-weight:800;color:#173a2b}
+.medals-h{font-size:1.15rem;font-weight:800;color:#173a2b;margin:1rem .2rem .5rem}
+.medalrow{display:flex;align-items:center;gap:.6rem;padding:.5rem .8rem}
+.medalwrap{display:flex;flex:none;filter:drop-shadow(0 .1rem .3rem rgba(60,50,30,.25));transform:scale(0.65);transform-origin:left center;margin-right:-.8rem}
+.medalrow.locked .medalwrap{filter:grayscale(1) drop-shadow(0 .1rem .2rem rgba(60,50,30,.15));opacity:.55}
+.minfo{flex:1;min-width:0}
+.mtitle{display:block;font-size:1rem;font-weight:700;color:#173a2b}
+.men{display:block;font-size:.8rem;color:#6d8577;font-weight:600;margin-top:.1rem}
+.got{display:inline-flex;align-items:center;gap:.25rem;margin-top:.25rem;background:#e4f6ec;color:#0b8a57;font-size:.75rem;font-weight:700;padding:.1rem .4rem;border-radius:999px}
+.locktxt{display:inline-flex;align-items:center;gap:.25rem;margin-top:.25rem;color:#93a89a;font-size:.75rem;font-weight:600}
+
+.overlay{position:fixed;inset:0;background:rgba(20,50,35,.5);display:flex;align-items:center;justify-content:center;padding:1.5rem;z-index:60;animation:ovin .2s ease}
+@keyframes ovin{from{opacity:0}}
+.modal{background:#fff;border-radius:1.6rem;padding:1.4rem 1.3rem;width:100%;max-width:29rem;max-height:86dvh;overflow-y:auto;
+  position:relative;box-shadow:0 2rem 5rem rgba(20,45,32,.3);animation:min .28s cubic-bezier(.34,1.4,.64,1)}
+@keyframes min{from{transform:scale(.9) translateY(1rem);opacity:0}}
+.mclose{position:absolute;top:.8rem;right:.8rem;width:2.3rem;height:2.3rem;border-radius:50%;background:#eef5ee;color:#5c7a66;font-size:1.05rem;font-weight:700;display:flex;align-items:center;justify-content:center}
+.mclose:hover{background:#e2efe4}
+.wlogo{display:flex;justify-content:center;margin-bottom:.6rem}
+.wtitle{font-size:1.35rem;font-weight:800;text-align:center;line-height:1.3;color:#173a2b}
+.wintro{font-size:.98rem;color:#5c7a66;text-align:center;line-height:1.45;margin:.4rem 0 .8rem}
+.feat{display:flex;align-items:center;gap:.6rem;padding:.5rem .7rem;background:#f4faf5;border:.1rem solid #e2efe4;border-radius:.8rem;margin-bottom:.4rem;font-size:.95rem;font-weight:600;color:#3d5a4a}
+.fico{width:2.1rem;height:2.1rem;flex:none;border-radius:.6rem;display:flex;align-items:center;justify-content:center}
+.flabel{display:block;font-size:.95rem;font-weight:700;color:#3d5a4a;margin:.8rem 0 .35rem}
+.fin{width:100%;padding:.75rem .85rem;border:.15rem solid #d5e6d8;border-radius:.8rem;font-family:inherit;font-size:1.35rem;color:#173a2b;background:#f4faf5;outline:none}
+.fin:focus{border-color:#0d8a5f;background:#fff}
+.ferr{display:none;color:#c0392b;font-size:.9rem;font-weight:600;margin-top:.35rem}
+.pbtn{width:100%;margin-top:.9rem;background:linear-gradient(150deg,#129a67,#0b6b45);color:#fff;font-weight:800;font-size:1.15rem;padding:.85rem;border-radius:.9rem;letter-spacing:.02rem;transition:all .15s ease}
+.pbtn:hover{filter:brightness(1.07)}
+.pbtn:active{transform:scale(.98)}
+.sbtn{width:100%;margin-top:.55rem;background:#fff;border:.15rem solid #d5e6d8;color:#3d5a4a;font-weight:800;font-size:1.1rem;padding:.8rem;border-radius:.9rem;transition:all .15s ease}
+.sbtn:active{transform:scale(.98)}
+.rsum{background:#f4faf5;border:.1rem solid #e2efe4;border-radius:.8rem;padding:.8rem .9rem;margin-top:.8rem;
+  font-size:.98rem;font-weight:700;color:#3d5a4a;line-height:1.5}
+.rwarn2{display:flex;gap:.5rem;align-items:flex-start;background:#fdf4e7;border:.1rem solid #f0ddb8;border-radius:.8rem;
+  padding:.7rem .85rem;margin-top:.55rem;font-size:.9rem;font-weight:700;color:#8a5a1e;line-height:1.4}
+.kick{display:table;margin:0 auto .8rem;background:#f6ecd4;color:#b5822a;font-size:.8rem;font-weight:800;padding:.25rem .8rem;border-radius:999px;letter-spacing:.03rem}
+.tmedalbox{margin:0 auto .8rem;display:flex;justify-content:center;animation:mmedal .55s cubic-bezier(.34,1.56,.64,1) both;
+  filter:drop-shadow(0 .4rem 1rem rgba(60,50,30,.3))}
+@keyframes mmedal{from{transform:scale(0) rotate(-14deg)}}
+.ttitle{font-size:1.4rem;font-weight:800;text-align:center;line-height:1.35;color:#173a2b}
+.tbody{font-size:1.02rem;color:#4b4437;text-align:center;line-height:1.6;margin:.6rem 0 .3rem}
+
+#toastWrap{position:fixed;left:0;right:0;bottom:calc(1.4rem + env(safe-area-inset-bottom));display:flex;justify-content:center;z-index:80;pointer-events:none;padding:0 1rem}
+.toast{pointer-events:auto;display:flex;align-items:center;gap:.65rem;background:#1e2a26;color:#fff;font-size:.98rem;font-weight:600;padding:.7rem 1rem;
+  border-radius:.9rem;box-shadow:0 .6rem 2rem rgba(20,40,30,.3);animation:tup .25s cubic-bezier(.3,1.3,.6,1);max-width:100%}
+@keyframes tup{from{transform:translateY(1.2rem);opacity:0}}
+.tbtn{background:#12a06c;color:#fff;font-size:.9rem;font-weight:700;padding:.3rem .7rem;border-radius:.5rem;flex:none}
+.tbtn:hover{filter:brightness(1.1)}
+.flydot{position:fixed;width:1rem;height:1rem;border-radius:50%;z-index:95;pointer-events:none;box-shadow:0 0 0 .25rem rgba(255,255,255,.55)}
+.cf{position:fixed;width:.6rem;height:.9rem;border-radius:.2rem;z-index:90;pointer-events:none}
+#errBar{display:none;position:fixed;top:0;left:0;right:0;z-index:9999;background:#dc2626;color:#fff;font-size:1rem;font-weight:600;padding:.55rem .9rem;text-align:center;line-height:1.35}
+</style>
+</head>
+<body>
+<noscript><div style="position:fixed;inset:0;z-index:10000;background:#e6f1ea;color:#22302a;display:flex;align-items:center;justify-content:center;text-align:center;padding:2.4rem;font-weight:700;font-size:1.4rem">මෙම app එක වැඩ කරන්න JavaScript සක්‍රීය කළ යුතුයි</div></noscript>
+<div id="errBar"></div>
+
+<div class="app">
+  <header class="topbar">
+    <div class="toprow">
+      <div class="brand">
+        <span class="logotile">
+          <svg style="width:1.8rem;height:1.8rem" viewBox="0 0 38 38" aria-hidden="true">
+            <ellipse cx="19" cy="19" rx="13.5" ry="6.5" fill="none" stroke="#ffffff" stroke-width="2" transform="rotate(-18 19 19)"/>
+            <circle cx="31.6" cy="14.9" r="2" fill="#ffffff"/>
+            <path d="M19 10.4L21.06 16.06L27.06 16.56L22.48 20.55L24.06 26.4L19 23.2L13.94 26.4L15.52 20.55L10.94 16.56L16.94 16.06Z" fill="#ffffff"/>
+          </svg>
+        </span>
+        <div>
+          <div class="bname">Biozone</div>
+          <div class="bsub">YOUR BIOLOGY, YOUR ZONE </div>
+        </div>
+      </div>
+      <div class="tag"> ඔබත් සමග...<br>හැම පියවරකදීම!
+        <span class="tagleaf"><svg style="width:1.1rem;height:1.1rem" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4C12 4 5.5 8.5 4.5 16.5c-.1.9.6 1.7 1.5 1.6C14 17.4 19.5 11 20 4z" fill="#3fae76"/><path d="M5.5 17.5C9 13 13.5 9.5 18.5 6.5" stroke="#2c8a5c" stroke-width="1" fill="none" stroke-linecap="round"/></svg></span>
+      </div>
+    </div>
+    <button class="examcard" id="examCard" onclick="BZ.editExam()" aria-label="පරීක්ෂා දිනය"></button>
+    <nav class="navseg">
+      <button class="navbtn active" id="nav-home" onclick="BZ.go('home')">
+        <svg style="width:1.2rem;height:1.2rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 10.5L12 3.5l8.5 7"/><path d="M5.5 9.5V20h13V9.5"/><path d="M10 20v-5.5h4V20"/></svg>
+        මුල් පිටුව</button>
+      <button class="navbtn" id="nav-progress" onclick="BZ.go('progress')">
+        <svg style="width:1.2rem;height:1.2rem" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="12" width="3.6" height="8" rx="1"/><rect x="10.2" y="7" width="3.6" height="13" rx="1"/><rect x="16.4" y="3.5" width="3.6" height="16.5" rx="1"/></svg>
+        ප්‍රගතිය</button>
+      <button class="navbtn" id="nav-ach" onclick="BZ.go('ach')">
+        <svg style="width:1.2rem;height:1.2rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.2l2.5 5.9 6.4.55-4.85 4.2 1.45 6.25L12 16.75 6.5 20.1l1.45-6.25L3.1 9.65l6.4-.55z"/></svg>
+        ජයග්‍රහණ</button>
+    </nav>
+  </header>
+
+  <main class="main" id="main">
+    <section class="view" id="view-home" style="display:block"></section>
+    <section class="view" id="view-progress"></section>
+    <section class="view" id="view-ach"></section>
+  </main>
+</div>
+
+<div class="overlay" id="examOverlay" style="display:none" role="dialog" aria-modal="true" onclick="BZ.backdrop(this,event)">
+  <div class="modal">
+    <button class="mclose" id="examClose" style="display:none" onclick="BZ.closeExam()" aria-label="වසන්න">✕</button>
+    <div id="welHead">
+      <div class="wlogo">
+        <svg style="width:3.4rem;height:3.4rem" viewBox="0 0 38 38" aria-hidden="true">
+          <rect x="1" y="1" width="36" height="36" rx="10" fill="#0d8a5f"/>
+          <ellipse cx="19" cy="19" rx="12" ry="6" fill="none" stroke="#ffffff" stroke-width="1.5" opacity=".9" transform="rotate(-18 19 19)"/>
+          <circle cx="30.4" cy="15.3" r="1.8" fill="#ffffff"/>
+          <path d="M19 12.2L20.59 16.82L25.47 16.9L21.57 19.83L23 24.5L19 21.7L15 24.5L16.43 19.83L12.53 16.9L17.41 16.82Z" fill="#ffffff"/>
+        </svg>
+      </div>
+      <div class="wtitle">Biozone වෙත සාදරයෙන් පිළිගනිමු</div>
+      <div class="wintro">සෑම ඉගෙනුම් සැසියකට තරුවක් උපයාගෙන ඔබේ A/L ගමන දිදුලන්නට තබන්න.</div>
+      <div class="feat"><span class="fico" style="background:#e4f6ec"><svg style="width:1.2rem;height:1.2rem" viewBox="0 0 24 24"><path d="M12 2L14.65 8.36L21.51 8.91L16.28 13.39L17.88 20.09L12 16.5L6.12 20.09L7.72 13.39L2.49 8.91L9.35 8.36Z" fill="#10b981"/></svg></span>තරු උපයා මට්ටම් 3ක් ජය ගන්න</div>
+      <div class="feat"><span class="fico" style="background:#e8effd"><svg style="width:1.2rem;height:1.2rem" viewBox="0 0 24 24" fill="#3b82f6"><rect x="4" y="12" width="4" height="8" rx="1"/><rect x="10" y="7" width="4" height="13" rx="1"/><rect x="16" y="3" width="4" height="17" rx="1"/></svg></span>සතිපතා · මාසික විශ්ලේෂණ සහ සිතියම</div>
+      <div class="feat"><span class="fico" style="background:#f6ecd4"><svg style="width:1.2rem;height:1.2rem" viewBox="0 0 24 24"><circle cx="12" cy="14" r="7.5" fill="#d9a13b"/><circle cx="12" cy="14" r="5" fill="#f0c46a"/><path d="M12 10.8l.9 1.9 2.1.3-1.5 1.5.3 2.1-1.8-1-1.8 1 .3-2.1-1.5-1.5 2.1-.3z" fill="#b5822a"/></svg></span>පදක්කම් 3ක් රැස් කරන්න</div>
+    </div>
+    <div id="edHead" style="display:none"><div class="wtitle" style="text-align:left;font-size:1.35rem">පරීක්ෂා දිනය වෙනස් කරන්න</div></div>
+    <label class="flabel" for="examInput">ඔබේ G.C.E. A/L පරීක්ෂා දිනය</label>
+    <input type="date" id="examInput" class="fin">
+    <div class="ferr" id="examErr">කරුණාකර අද හෝ ඊට පසු දිනයක් තෝරන්න</div>
+    <button class="pbtn" id="examSaveBtn" onclick="BZ.saveExam()">ආරම්භ කරන්න</button>
+  </div>
+</div>
+
+<div class="overlay" id="tierOverlay" style="display:none" role="dialog" aria-modal="true" onclick="BZ.backdrop(this,event)">
+  <div class="modal" style="text-align:center">
+    <span class="kick">නව ජයග්‍රහණයක්!</span>
+    <div id="tierMedal" class="tmedalbox"></div>
+    <div class="ttitle" id="tierTitle"></div>
+    <div class="tbody" id="tierBody"></div>
+    <button class="pbtn" onclick="BZ.closeTier()">දිගටම කරගෙන යන්න</button>
+  </div>
+</div>
+
+<div class="overlay" id="restoreOverlay" style="display:none" role="dialog" aria-modal="true" onclick="BZ.backdrop(this,event)">
+  <div class="modal">
+    <div class="wtitle" style="font-size:1.35rem">Backup file එක ආදේශ කරන්නද?</div>
+    <div class="rsum" id="restoreSummary"></div>
+    <div class="rwarn2"><span>⚠</span><span>දැනට phone එකේ තියෙන ඔබේ දත්ත සම්පූර්ණයෙන් මකාදමා, Backup file එකේ දත්ත ආදේශ වේ. මෙය ආපසු හැරවිය නොහැක.</span></div>
+    <button class="pbtn" onclick="BZ.confirmRestore()">ඔව්, දත්ත ආදේශ කරන්න</button>
+    <button class="sbtn" onclick="BZ.closeRestore()">අවලංගු කරන්න</button>
+  </div>
+</div>
+
+<div id="toastWrap"></div>
+<div id="confettiWrap"></div>
+
+<script>
+(function(){
+  function showErr(m){try{var b=document.getElementById('errBar');if(b){b.textContent=m;b.style.display='block';}}catch(e){}}
+  window.onerror=function(msg,src,line){try{showErr('JS Error → '+msg+' (line '+(line||'?')+')');}catch(e){}return false;};
+  window.BZ={
+    go:function(v){try{
+      var vs=['home','progress','ach'];
+      for(var i=0;i<vs.length;i++){
+        var s=document.getElementById('view-'+vs[i]);if(s)s.style.display=(vs[i]===v)?'block':'none';
+        var n=document.getElementById('nav-'+vs[i]);if(n)n.className='navbtn'+(vs[i]===v?' active':'');
+      }
+      var m=document.getElementById('main');if(m)m.scrollTop=0;
+    }catch(e){}},
+    tab:function(){},add:function(){},del:function(){},goal:function(){},more:function(){},
+    editExam:function(){},saveExam:function(){},toastAct:function(){},backdrop:function(){},backup:function(){},
+    restorePick:function(){},restoreFile:function(){},confirmRestore:function(){},
+    closeExam:function(){try{var o=document.getElementById('examOverlay');if(o)o.style.display='none';}catch(e){}},
+    closeTier:function(){try{var o=document.getElementById('tierOverlay');if(o)o.style.display='none';}catch(e){}},
+    closeRestore:function(){try{var o=document.getElementById('restoreOverlay');if(o)o.style.display='none';}catch(e){}}
+  };
+  setTimeout(function(){
+    if(!window.__bzLoaded){
+      showErr('⚠ App එක සම්පූර්ණයෙන් load වී නැත — file එක ආරම්භයේ සිට අවසානය දක්වා සම්පූර්ණයෙන් copy කර ඇති බව පරීක්ෂා කරන්න');
+    }
+  },3000);
+})();
+</script>
+
+<script>
+(function(){
+'use strict';
+
+function $(id){return document.getElementById(id);}
+function showErr(m){try{var b=$('errBar');if(b){b.textContent=m;b.style.display='block';}}catch(e){}}
+function safeRender(n,f){try{f();}catch(e){showErr('Render error → '+n+': '+e.message);}}
+
+var SI_M=['ජන','පෙබ','මාර්තු','අප්‍රේල්','මැයි','ජූනි','ජූලි','අගෝ','සැප්','ඔක්','නොවැ','දෙසැ'];
+var HM_LAB=['සඳු','අඟ','බදා','බ්‍රහ','සිකු','සෙන','ඉරි'];
+var ORDER=['bio','phy','che'];
+var SUBJ={
+  bio:{color:'#10b981',short:'ජීව විද්‍යාව',legend:'ජීව විද්‍යාව',full:'ජීව විද්‍යාව',l1:'ජීව',l2:'විද්‍යාව'},
+  phy:{color:'#3b82f6',short:'භෞතික',legend:'භෞතික විද්‍යාව',full:'භෞතික විද්‍යාව',l1:'භෞතික',l2:'විද්‍යාව'},
+  che:{color:'#8b5cf6',short:'රසායන',legend:'රසායන විද්‍යාව',full:'රසායන විද්‍යාව',l1:'රසායන',l2:'විද්‍යාව'}
+};
+var SHINE_TINT={bio:'#8df0c3',phy:'#a9c9fb',che:'#d3c4fb'};
+var SHINE_DARK={bio:'#0a8a5e',phy:'#2f6fdd',che:'#7646e2'};
+var MEDALS=[
+  {id:'bronze',th:9, si:'ලෝකඩ පදක්කම',tier:'ලෝකඩ',en:'Biozone Core Practitioner',
+   c:['#c07f3f','#a3652c','#e6b184'], rb:'#e08a3f',rbe:'#f6d3ab',arcTop:'FINALIST',place:'3rd PLACE',
+   msg:'ඔබ "Biozone Core Practitioner" පදක්කම උපයාගත්තා! ඔබේ කැපවීමට සුබ පැතුම් — දිගටම ඉදිරියට යන්න!'},
+  {id:'silver',th:11,si:'රිදී පදක්කම', tier:'රිදී', en:'Biozone Advanced Learner',
+   c:['#aeb6bf','#8d99a8','#eef1f4'], rb:'#2f9e5f',rbe:'#bfe8d2',arcTop:'REGIONAL WINNER',place:'2nd PLACE',
+   msg:'ඔබ "Biozone Advanced Learner" පදක්කම උපයාගත්තා! ඔබේ කැපවීමට සුබ පැතුම් — දිගටම ඉදිරියට යන්න!'},
+  {id:'gold',  th:15,si:'රන් පදක්කම',  tier:'රන්',  en:'Ultimate Biozone Scholar',
+   c:['#e6b93f','#b5822a','#f8dd82'], rb:'#2f5fa8',rbe:'#a8c4f0',arcTop:'GLOBAL CHAMPION',place:'1st PLACE',
+   msg:'"Ultimate Biozone Scholar" පදක්කම ඔබ ලබාගෙන ඇත! ඔබේ කැපවීමට අපගේ උණුසුම් සුබ පැතුම්. මේ විදිහට දිගටම වැඩ කරගෙන ගියොත්, A/L විභාගය ඔබ නිසැකවම ජයගනු ලබයි! එසේ වේවා කියා Biozone අපි ප්‍රාර්ථනා කරන්නෙමු!'}
+];
+var TIER_UI=[
+  {name:'ආරම්භක',   bg:'linear-gradient(140deg,#8fa396,#5c7a66)',fill:'#5c7a66'},
+  {name:'ලෝකඩ',      bg:'linear-gradient(140deg,#d08a4a,#a3652c)',fill:'#c07f3f'},
+  {name:'රිදී',      bg:'linear-gradient(140deg,#aab6c2,#6f7c8c)',fill:'#8d99a8'},
+  {name:'රන් මට්ටම', bg:'linear-gradient(140deg,#eec25f,#b5822a)',fill:'#d9a13b'}
+];
+var STAR_D='M12 2L14.65 8.36L21.51 8.91L16.28 13.39L17.88 20.09L12 16.5L6.12 20.09L7.72 13.39L2.49 8.91L9.35 8.36Z';
+var LOCK_SVG='<svg style="width:1rem;height:1rem" viewBox="0 0 24 24" fill="none" stroke="#93a89a" stroke-width="2.4" stroke-linecap="round"><rect x="4.5" y="10.5" width="15" height="9.5" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>';
+var HSTAR='<svg style="width:1.4rem;height:1.4rem" viewBox="0 0 24 24" aria-hidden="true"><path d="'+STAR_D+'" fill="#10b981"/></svg>';
+var SUBJ_ICONS={
+  bio:'<svg style="width:1.7rem;height:1.7rem" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 4c-6 .5-11 4-12.5 11.5-.2 1 .5 1.9 1.5 1.8C15.5 16.5 18.5 10 19 4z"/><path d="M6.5 17.5C9.5 13 13.5 9.5 17.5 6.5" stroke-width="1.2"/><path d="M5.5 19.5c1-1.2 2-2.4 2.8-3.6" stroke-width="1.6"/></svg>',
+  phy:'<svg style="width:1.7rem;height:1.7rem" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.4" aria-hidden="true"><circle cx="12" cy="12" r="1.8" fill="#ffffff" stroke="none"/><ellipse cx="12" cy="12" rx="8.8" ry="3.4"/><ellipse cx="12" cy="12" rx="8.8" ry="3.4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="8.8" ry="3.4" transform="rotate(120 12 12)"/></svg>',
+  che:'<svg style="width:1.7rem;height:1.7rem" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3.5h4M10.8 3.5v5.2L5.6 17.6A2 2 0 0 0 7.4 20.5h9.2a2 2 0 0 0 1.8-2.9L13.2 8.7V3.5"/><path d="M8 14.5h8"/></svg>'
+};
+
+function pad2(n){return (n<10?'0':'')+n;}
+function dkey(d){return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate());}
+function todayStr(){return dkey(new Date());}
+function addDays(d,n){var x=new Date(d.getFullYear(),d.getMonth(),d.getDate());x.setDate(x.getDate()+n);return x;}
+function mondayOf(d){return addDays(d,-((d.getDay()+6)%7));}
+function parseDay(s){var p=s.split('-');return new Date(+p[0],+p[1]-1,+p[2]);}
+function dots(s){return s?s.split('-').join('.'):'';}
+function fmtDMY(d){return d.getDate()+' '+SI_M[d.getMonth()]+' '+d.getFullYear();}
+function fnum(n){return String(Math.round(n*10)/10);}
+function clamp(v,a,b){return Math.min(b,Math.max(a,v));}
+function starPathAt(cx,cy,R,r){
+  var p='';
+  for(var i=0;i<10;i++){
+    var ang=-Math.PI/2+i*Math.PI/5,rad=(i%2===0)?R:r;
+    p+=(i===0?'M':'L')+(cx+rad*Math.cos(ang)).toFixed(2)+' '+(cy+rad*Math.sin(ang)).toFixed(2);
+  }
+  return p+'Z';
+}
+function shineDefs(){
+  var out='';
+  ORDER.forEach(function(s){
+    out+='<linearGradient id="bzg-'+s+'" x1="0" y1="0" x2="0" y2="1">'
+      +'<stop offset="0" stop-color="'+SHINE_TINT[s]+'"/>'
+      +'<stop offset="0.55" stop-color="'+SUBJ[s].color+'"/>'
+      +'<stop offset="1" stop-color="'+SHINE_DARK[s]+'"/></linearGradient>';
+  });
+  return '<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>'+out+'</defs></svg>';
+}
+function shinyStar(s,size,dly){
+  var cls=reduced?'':'shinesvg';
+  var extra=reduced?'':'animation-delay:'+dly+'s;';
+  return '<svg class="'+cls+'" style="width:'+size+';height:'+size+';'+extra+'filter:drop-shadow(0 0 .2rem '+SUBJ[s].color+')drop-shadow(0 .1rem .1rem rgba(0,0,0,.18))" viewBox="0 0 24 24" aria-hidden="true"'
+    +'"><path d="'+STAR_D+'" fill="url(#bzg-'+s+')" stroke="'+SHINE_DARK[s]+'" stroke-width=".7" stroke-linejoin="round"/>'
+    +'<path d="'+starPathAt(12,13.6,5,2.05)+'" fill="#ffffff" opacity=".30"/>'
+    +'<circle cx="9.3" cy="7.1" r="1.15" fill="#ffffff" opacity=".95"/>'
+    +'<circle cx="15.2" cy="11.6" r=".55" fill="#ffffff" opacity=".8"/></svg>';
+}
+
+var medalUid=0;
+function medalSVG(m,size){
+  medalUid++;
+  var g='bzmg'+medalUid;
+  function leaves(list){
+    var s='',i,a,x,y;
+    for(i=0;i<list.length;i++){
+      a=list[i]*Math.PI/180;
+      x=(30+16.4*Math.cos(a)).toFixed(1);
+      y=(39+16.4*Math.sin(a)).toFixed(1);
+      s+='<ellipse cx="'+x+'" cy="'+y+'" rx="2.7" ry="1.15" fill="'+m.c[1]+'" opacity=".45" transform="rotate('+(list[i]+90)+' '+x+' '+y+')"/>';
+    }
+    return s;
+  }
+  return '<svg style="width:'+size+';height:'+size+'" viewBox="0 0 60 62" aria-hidden="true">'
+    +'<defs><radialGradient id="'+g+'" cx=".35" cy=".3" r=".95">'
+    +'<stop offset="0" stop-color="'+m.c[2]+'"/><stop offset=".55" stop-color="'+m.c[0]+'"/><stop offset="1" stop-color="'+m.c[1]+'"/>'
+    +'</radialGradient><path id="'+g+'t" d="M18.6 33.5 A14 14 0 0 1 41.4 33.5" fill="none"/></defs>'
+    +'<polygon points="15,0 29.5,0 28.6,15 21.5,15" fill="'+m.rb+'"/>'
+    +'<polygon points="45,0 30.5,0 31.4,15 38.5,15" fill="'+m.rb+'"/>'
+    +'<polygon points="15,0 17.3,0 21.5,15 19.6,15" fill="'+m.rbe+'"/>'
+    +'<polygon points="45,0 42.7,0 38.5,15 40.4,15" fill="'+m.rbe+'"/>'
+    +'<polygon points="26.8,0 29.5,0 28.6,15 26.4,15" fill="'+m.rbe+'"/>'
+    +'<polygon points="33.2,0 30.5,0 31.4,15 33.6,15" fill="'+m.rbe+'"/>'
+    +'<path d="M20.3 2.2v10.6M22.6 2.2v10.6" stroke="'+m.rbe+'" stroke-width=".9" opacity=".5"/>'
+    +'<path d="M39.7 2.2v10.6M37.4 2.2v10.6" stroke="'+m.rbe+'" stroke-width=".9" opacity=".5"/>'
+    +'<rect x="24" y="13.4" width="12" height="5.6" rx="2.3" fill="'+m.c[1]+'" stroke="'+m.c[2]+'" stroke-width=".8"/>'
+    +'<circle cx="30" cy="39" r="21" fill="url(#'+g+')" stroke="'+m.c[1]+'" stroke-width="1.6"/>'
+    +'<ellipse cx="22.5" cy="30.5" rx="9" ry="6" fill="#ffffff" opacity=".16"/>'
+    +'<circle cx="30" cy="39" r="18.8" fill="none" stroke="'+m.c[2]+'" stroke-width="1" opacity=".95"/>'
+    +'<circle cx="30" cy="39" r="17.5" fill="none" stroke="'+m.c[1]+'" stroke-width=".6" opacity=".5" stroke-dasharray="1 1.7"/>'
+    +leaves([118,140,162,184,206,228])
+    +leaves([62,40,18,-4,-26,-48])
+    +'<text font-family="Arial,sans-serif" font-size="3" font-weight="800" fill="'+m.c[1]+'" letter-spacing=".3">'
+    +'<textPath href="#'+g+'t" startOffset="50%" text-anchor="middle" textLength="22" lengthAdjust="spacingAndGlyphs">'+m.arcTop+'</textPath></text>'
+    +'<text x="14" y="31.6" font-family="Arial,sans-serif" font-size="2.6" fill="'+m.c[1]+'">★</text>'
+    +'<text x="43.4" y="31.6" font-family="Arial,sans-serif" font-size="2.6" fill="'+m.c[1]+'">★</text>'
+    +'<rect x="30.8" y="26.6" width="2.4" height="3.1" rx=".6" fill="'+m.c[1]+'" transform="rotate(33 32 28.1)"/>'
+    +'<path d="M28.7 31.2l3.2-4.6" stroke="'+m.c[1]+'" stroke-width="2" stroke-linecap="round"/>'
+    +'<path d="M27.7 37c-1.4-1.2-1.2-3.1.3-4.5" stroke="'+m.c[1]+'" stroke-width="1.4" fill="none" stroke-linecap="round"/>'
+    +'<path d="M26 36.6h8" stroke="'+m.c[1]+'" stroke-width="1.2" stroke-linecap="round"/>'
+    +'<ellipse cx="30" cy="37.9" rx="4.9" ry="1" fill="'+m.c[1]+'" opacity=".9"/>'
+    +'<polygon points="10,38.2 50,38.2 50,44.8 10,44.8" fill="'+m.c[2]+'" stroke="'+m.c[1]+'" stroke-width=".7"/>'
+    +'<polygon points="10,38.2 6.4,41.5 10,44.8" fill="'+m.c[0]+'" stroke="'+m.c[1]+'" stroke-width=".7"/>'
+    +'<polygon points="50,38.2 53.6,41.5 50,44.8" fill="'+m.c[0]+'" stroke="'+m.c[1]+'" stroke-width=".7"/>'
+    +'<text x="30" y="43.1" text-anchor="middle" font-family="Arial,sans-serif" font-size="4.5" font-weight="800" fill="'+m.c[1]+'" letter-spacing=".35">BIOZONE</text>'
+    +'<path d="M25.4 46.2c3.6 1.9 5.6 1.9 9.2 0M25.4 51.2c3.6-1.9 5.6-1.9 9.2 0" stroke="'+m.c[1]+'" stroke-width=".95" fill="none" opacity=".85"/>'
+    +'<path d="M26.7 46.8h6.6M26.7 50.6h6.6M28.7 48.7h2.6" stroke="'+m.c[1]+'" stroke-width=".8" opacity=".7"/>'
+    +'<text x="30" y="56.4" text-anchor="middle" font-family="Arial,sans-serif" font-size="3.1" font-weight="800" fill="'+m.c[1]+'" letter-spacing=".55">'+m.place+'</text>'
+    +'</svg>';
+}
+function medalDot(m,size,dim){
+  return '<span style="display:flex;'+(dim?'opacity:.45;':'')+'"><svg style="width:'+size+';height:'+size+'" viewBox="0 0 24 24" aria-hidden="true">'
+    +'<circle cx="12" cy="12" r="11" fill="'+m.c[0]+'"/>'
+    +'<circle cx="12" cy="12" r="7.4" fill="'+m.c[2]+'"/>'
+    +'<path d="'+starPathAt(12,12,4.6,1.9)+'" fill="'+m.c[1]+'"/></svg></span>';
+}
+var BOOKS_SVG='<svg style="width:4.2rem;height:3.4rem" viewBox="0 0 66 52" aria-hidden="true">'
+  +'<rect x="6" y="36" width="52" height="11" rx="3" fill="#7c5cd6"/><rect x="6" y="36" width="52" height="4" rx="2" fill="#9a7ee6"/>'
+  +'<rect x="10" y="25" width="46" height="11" rx="3" fill="#3b82f6"/><rect x="10" y="25" width="46" height="4" rx="2" fill="#6ba3f8"/>'
+  +'<rect x="14" y="14" width="38" height="11" rx="3" fill="#10b981"/><rect x="14" y="14" width="38" height="4" rx="2" fill="#48d6a0"/>'
+  +'<rect x="44" y="8" width="16" height="6" rx="3" transform="rotate(24 52 11)" fill="#d9a13b"/>'
+  +'</svg>';
+var reduced=false;
+try{reduced=!!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches);}catch(e){}
+
+var MEM={};
+function lsGet(k){try{return window.localStorage.getItem(k);}catch(e){return Object.prototype.hasOwnProperty.call(MEM,k)?MEM[k]:null;}}
+function lsSet(k,v){try{window.localStorage.setItem(k,v);return;}catch(e){}MEM[k]=v;}
+
+var S={stars:[],medals:{},examDate:'',welcomed:false,goal:10,view:'home',tab:'daily',expanded:false};
+var STAR_LIMIT=18;
+var pendingRestore=null;
+var lastBackup=null;
+
+function loadState(){
+  try{
+    var raw=lsGet('biozone.stars');
+    if(raw){
+      var a=JSON.parse(raw);
+      if(Array.isArray(a))S.stars=a.filter(validStar);
+    }
+  }catch(e){S.stars=[];}
+  try{
+    var m=lsGet('biozone.medals');
+    if(m){
+      var o=JSON.parse(m);
+      if(o&&typeof o==='object'&&!Array.isArray(o)){
+        ['bronze','silver','gold'].forEach(function(k){if(typeof o[k]==='number'&&isFinite(o[k]))S.medals[k]=o[k];});
+      }
+    }
+  }catch(e){S.medals={};}
+  try{var d=lsGet('biozone.examDate');if(typeof d==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(d))S.examDate=d;}catch(e){}
+  try{S.welcomed=lsGet('biozone.welcomed')==='1';}catch(e){}
+  try{var g=parseInt(lsGet('biozone.goal'),10);if(isFinite(g))S.goal=clamp(g,1,99);}catch(e){}
+  try{
+    var lb=lsGet('biozone.lastBackup');
+    if(lb){var lo=JSON.parse(lb);if(lo&&typeof lo.stars==='number')lastBackup=lo;}
+  }catch(e){lastBackup=null;}
+}
+function validStar(x){return !!x&&(x.s==='bio'||x.s==='phy'||x.s==='che')&&typeof x.t==='number'&&isFinite(x.t);}
+function saveStars(){try{lsSet('biozone.stars',JSON.stringify(S.stars));}catch(e){}}
+function saveMedals(){try{lsSet('biozone.medals',JSON.stringify(S.medals));}catch(e){}}
+function saveGoal(){try{lsSet('biozone.goal',String(S.goal));}catch(e){}}
+function saveLastBackup(){try{lsSet('biozone.lastBackup',JSON.stringify(lastBackup));}catch(e){}}
+
+function countMap(){
+  var m={};
+  for(var i=0;i<S.stars.length;i++){
+    var st=S.stars[i],k=dkey(new Date(st.t));
+    var c=m[k]||(m[k]={bio:0,phy:0,che:0,total:0});
+    c[st.s]++;c.total++;
+  }
+  return m;
+}
+function sumBack(cm,n){var s=0,d=new Date();for(var i=0;i<n;i++){var c=cm[dkey(addDays(d,-i))];if(c)s+=c.total;}return s;}
+function sumOffset(cm,a,b){var s=0,d=new Date();for(var i=a;i<=b;i++){var c=cm[dkey(addDays(d,-i))];if(c)s+=c.total;}return s;}
+function streakOf(cm){
+  var set={};for(var k in cm){if(cm[k].total>0)set[k]=1;}
+  var d=new Date();
+  if(!set[dkey(d)])d=addDays(d,-1);
+  var n=0;while(set[dkey(d)]){n++;d=addDays(d,-1);}
+  return n;
+}
+function weekCount(cm){
+  var d=new Date(),off=(d.getDay()+6)%7,s=0;
+  for(var i=off;i>=0;i--){var c=cm[dkey(addDays(d,-i))];if(c)s+=c.total;}
+  return s;
+}
+function weekTotals(cm){
+  var mon=mondayOf(new Date()),cur=0,prev=0;
+  for(var i=0;i<7;i++){
+    var c1=cm[dkey(addDays(mon,i))];if(c1)cur+=c1.total;
+    var c2=cm[dkey(addDays(mon,i-7))];if(c2)prev+=c2.total;
+  }
+  return {cur:cur,prev:prev};
+}
+function perSubject(){var p={bio:0,phy:0,che:0};S.stars.forEach(function(st){p[st.s]++;});return p;}
+
+/* ===== Dynamic Medal Check (Unlock on add, Lock on remove/reset) ===== */
+function checkTiers(){
+  var tk=todayStr();
+  var todayCount=0;
+  for(var i=0;i<S.stars.length;i++){
+    if(dkey(new Date(S.stars[i].t))===tk) todayCount++;
+  }
+  var ne=[];
+  var changed=false;
+  MEDALS.forEach(function(m){
+    if(todayCount>=m.th){
+      if(!S.medals[m.id]){
+        S.medals[m.id]=Date.now();
+        ne.push(m.id);
+        changed=true;
+      }
+    }else{
+      if(S.medals[m.id]){
+        delete S.medals[m.id];
+        changed=true;
+      }
+    }
+  });
+  if(changed) saveMedals();
+  return ne;
+}
+function tierOf(t){return t>=15?3:t>=11?2:t>=9?1:0;}
+
+var toastTimer=null,undoItem=null;
+function toast(msg,withUndo){
+  var w=$('toastWrap');if(!w)return;
+  w.innerHTML='<div class="toast">'+msg+(withUndo?'<button class="tbtn" onclick="BZ.toastAct()">නැවත තබන්න</button>':'')+'</div>';
+  if(toastTimer)clearTimeout(toastTimer);
+  toastTimer=setTimeout(function(){w.innerHTML='';},withUndo?6000:2400);
+}
+
+function renderCountdown(){
+  var el=$('examCard');if(!el)return;
+  var numsHTML;
+  if(!S.examDate){numsHTML='<span class="exmsg dim">දිනය සකසන්න</span>';}
+  else{
+    var tk=todayStr();
+    if(S.examDate===tk){numsHTML='<span class="exmsg">අද පරීක්ෂා දිනයයි!</span>';}
+    else if(S.examDate<tk){numsHTML='<span class="exmsg dim">පරීක්ෂාව අවසන් විය</span>';}
+    else{
+      var ms=parseDay(S.examDate).getTime()-Date.now();
+      if(ms<0)ms=0;
+      var D=Math.floor(ms/86400000),H=Math.floor((ms%86400000)/3600000);
+      numsHTML='<span class="exnum">'+D+'</span><span class="exunit">දින</span>'
+        +'<span class="exdiv"></span>'
+        +'<span class="exnum">'+pad2(H)+'</span><span class="exunit">පැය</span>';
+    }
+  }
+  var dateLbl=S.examDate?dots(S.examDate):'සකසන්න';
+  el.innerHTML='<span class="extile"><svg style="width:2.6rem;height:2.6rem" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/><circle cx="8.2" cy="14" r=".8" fill="#fff" stroke="none"/><circle cx="12" cy="14" r=".8" fill="#fff" stroke="none"/><circle cx="15.8" cy="14" r=".8" fill="#fff" stroke="none"/><circle cx="8.2" cy="17.5" r=".8" fill="#fff" stroke="none"/><circle cx="12" cy="17.5" r=".8" fill="#fff" stroke="none"/><circle cx="15.8" cy="17.5" r=".8" fill="#fff" stroke="none"/></svg></span>'
+    +'<span class="exmid"><span class="exlbl">A/L විභාගයට තව</span><span class="exnums">'+numsHTML+'</span></span>'
+    +'<span class="datepill"><span class="dpdate">'+dateLbl+'</span>'
+    +'<svg style="width:1.2rem;height:1.2rem" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>'
+    +'<span class="dpchev"><svg style="width:1.1rem;height:1.1rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></span></span>';
+}
+
+function renderHome(){
+  var el=$('view-home');if(!el)return;
+  checkTiers();
+  var total=S.stars.length;
+  var cm=countMap();
+  var tk=todayStr();
+
+  var tIdx=[];
+  for(var i0=0;i0<S.stars.length;i0++){
+    if(dkey(new Date(S.stars[i0].t))===tk)tIdx.push(i0);
+  }
+  var todayCount=tIdx.length;
+
+  var ti=tierOf(todayCount),T=TIER_UI[ti];
+
+  var gPct=(Math.min(todayCount,15)/15*100).toFixed(1);
+  var gGold=(todayCount>=15);
+
+  var meds='';
+  MEDALS.forEach(function(m){
+    var left=(m.th/15*100);
+    meds+='<span class="mmed'+(todayCount>=m.th?'':' dim')+'" style="left:'+left+'%">'
+      +medalDot(m,'1.6rem',todayCount<m.th)+'<span class="mnum">'+m.th+'</span></span>';
+  });
+
+  var mc=['bronze','silver','gold'].filter(function(k){return S.medals[k];}).length;
+
+  var cap;
+  if(todayCount>=15){
+    cap='අද රන් මට්ටම සම්පූර්ණ! 🎉<br>මුළු තරු '+total+' · පදක්කම් '+mc+'/3';
+  }else{
+    var nt=todayCount<9?{nm:'ලෝකඩ',th:9}:{nm:todayCount<11?'රිදී':'රන්',th:todayCount<11?11:15};
+    cap='අදේ ඉලක්කය: '+nt.nm+' මට්ටම · තව තරු '+(nt.th-todayCount)+'ක්<br>මුළු තරු '+total+' · පදක්කම් '+mc+'/3';
+  }
+  var chipMedal=(ti>0)?medalDot(MEDALS[ti-1],'1.4rem',false):'<span style="display:flex"><svg style="width:1.4rem;height:1.4rem" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#cfd8cf"/><path d="'+starPathAt(12,12,5,2)+'" fill="#f4faf5"/></svg></span>';
+
+  var show=S.expanded?todayCount:Math.min(todayCount,STAR_LIMIT);
+  var starsH='';
+  if(total===0){
+    starsH='<div class="emptystars">තවම තරු නැත — ඉහත බොත්තමෙන් ඔබේ පළමු තරුව උපයාගන්න</div>';
+  }else if(todayCount===0){
+    var yK=dkey(addDays(new Date(),-1));
+    var yestC=cm[yK]?cm[yK].total:0;
+    starsH='<div class="emptystars">'
+      +(yestC>0?('ඊයේ ඔබ තරු '+yestC+'ක් උපයාගත්තා! 🌟<br>'):'')
+      +'අලුත් දිනයක් — අද පළමු තරුව ඉහත බොත්තමෙන් උපයාගන්න</div>';
+  }else{
+    for(var k2=0;k2<show;k2++){
+      var st=S.stars[tIdx[k2]];
+      var dly=('-'+((k2*0.37)%2.8).toFixed(2));
+      starsH+='<button class="starb" data-i="'+tIdx[k2]+'" data-t="'+st.t+'" onclick="BZ.del(this)" aria-label="තරුව ඉවත් කරන්න"><span class="swrap">'+shinyStar(st.s,'2rem',dly)+'</span></button>';
+    }
+  }
+  var moreRow='';
+  if(todayCount>show){
+    moreRow='<div class="morerow"><span class="moret">තව තරු '+(todayCount-show)+'ක්...</span>'
+      +'<button class="morebtn" onclick="BZ.more()" aria-label="සියලු තරු පෙන්වන්න">⋯</button></div>';
+  }else if(todayCount>0){
+    moreRow='<div class="shint">තරුවක් ඔබා එය ඉවත් කරන්න</div>';
+  }
+
+  var tiles='';
+  ORDER.forEach(function(s){
+    tiles+='<button class="addb" style="background:linear-gradient(150deg,'+SUBJ[s].color+','+SUBJ[s].color+'dd)" onclick="BZ.add(\''+s+'\',this)">'
+      +SUBJ_ICONS[s]
+      +'<span><span class="abname">'+SUBJ[s].l1+'</span><span class="absub">'+SUBJ[s].l2+'</span></span>'
+      +'<span class="abstar"><svg style="width:.9rem;height:.9rem" viewBox="0 0 24 24"><path d="'+STAR_D+'" fill="#ffffff"/></svg></span>'
+      +'</button>';
+  });
+
+  var html='<div class="card heroCard">'
+    +'<div class="heroL">'
+    +'<svg style="width:3.4rem;height:3.4rem" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="bzgold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f7ce55"/><stop offset="1" stop-color="#e0a32b"/></linearGradient></defs><path d="'+STAR_D+'" fill="url(#bzgold)" stroke="#c98d1d" stroke-width=".6"/>'
+    +'<path d="'+starPathAt(12,12.4,5.2,2.1)+'" fill="#fbe39a" opacity=".85"/></svg>'
+    +'<span class="heroLbl">මගේ තරු</span>'
+    +'<span class="heroNum">'+todayCount+'</span>'
+    +'<span class="tierchip" style="background:'+T.bg+'">'+chipMedal+T.name+'</span>'
+    +'</div>'
+    +'<div class="heroR">'
+    +'<div class="barrow"><span class="gtrack"><span class="gfill" style="display:block;width:'+gPct+'%;'+(gGold?'background:linear-gradient(90deg,#f0c46a,#d9a13b);':'')+'"></span></span><span class="barlbl">'+todayCount+'/15</span></div>'
+    +'<div class="mtrack"><span class="mtrackin"><span class="mline"></span><span class="mfill" style="width:'+gPct+'%;'+(gGold?'background:#d9a13b;':'')+'"></span>'+meds+'</span></div>'
+    +'<div class="mcap">'+cap+'</div>'
+    +'</div></div>';
+  html+='<div class="card"><div class="ctrow">'+HSTAR+'<span class="ct">තරුවක් එකතු කරන්න</span></div>'
+    +'<div class="csub">අද ඉගෙනුම් සැසිය නිම කළාද?</div>'
+    +'<div class="addgrid">'+tiles+'</div></div>';
+  html+=shineDefs();
+  html+='<div class="card"><div class="shead2"><span class="ctrow">'+HSTAR+'<span class="ct">මගේ තරු</span></span>'
+    +'<span class="navyPill">අද · '+todayCount+' තරු</span></div>'
+    +'<div class="starfield" id="starField">'+starsH+'</div>'
+    +moreRow
+    +'</div>';
+  html+='<div class="banner"><span class="bbooks">'+BOOKS_SVG+'</span>'
+    +'<span class="bnote">Small<br>Steps.<br>Big Dreams</span>'
+    +'<span class="btext">පොඩි පියවර, ලොකු සිහිනයක්!<br>දිගටම කරගෙන යන්න! 💪</span></div>';
+  html+='<div class="footpill"><svg style="width:.9rem;height:.9rem" viewBox="0 0 24 24" fill="none" stroke="#bfe8d2" stroke-width="2.4" stroke-linecap="round"><rect x="4.5" y="10.5" width="15" height="9.5" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>සියලු දත්ත ඔබේ උපාංගයේම ආරක්ෂිතව ගබඩා වේ</div>';
+  el.innerHTML=html;
+}
+
+function trendChip(cur,prev){
+  var cls,txt;
+  if(prev===0&&cur>0){cls='up';txt='අලුත් වාර්තාවක්!';}
+  else if(prev===0){cls='flat';txt='= සමානයි';}
+  else{
+    var p=Math.round((cur-prev)/prev*100);
+    if(p>0){cls='up';txt='↑ +'+p+'%';}
+    else if(p<0){cls='down';txt='↓ -'+Math.abs(p)+'%';}
+    else{cls='flat';txt='= සමානයි';}
+  }
+  return '<span class="tchip '+cls+'">'+txt+'</span>';
+}
+function chartHTML(cm,sums){
+  var cols=[],meta='',trend='',empty='',isDaily=(S.tab==='daily'),isMonthly=(S.tab==='monthly'),bestI=-1,tot=0,i,d,cc;
+  if(isDaily){
+    var c=cm[todayStr()]||{bio:0,phy:0,che:0,total:0};
+    cols.push({total:c.bio,lbl:SUBJ.bio.short,col:SUBJ.bio.color});
+    cols.push({total:c.phy,lbl:'භෞතික',col:SUBJ.phy.color});
+    cols.push({total:c.che,lbl:'රසායන',col:SUBJ.che.color});
+    meta='අද · '+fmtDMY(new Date());
+    if(c.total===0)empty='අද තවම තරු එකතු කර නැත';
+  }else if(isMonthly){
+    var NW=4;
+    for(i=NW-1;i>=0;i--){
+      var seg={bio:0,phy:0,che:0},tt=0;
+      for(var j=0;j<7;j++){
+        cc=cm[dkey(addDays(new Date(),-(i*7+j)))]||{bio:0,phy:0,che:0,total:0};
+        seg.bio+=cc.bio;seg.phy+=cc.phy;seg.che+=cc.che;tt+=cc.total;
+      }
+      cols.push({segs:[{s:'bio',n:seg.bio},{s:'phy',n:seg.phy},{s:'che',n:seg.che}],total:tt,
+        lbl:'සති '+(NW-i)});
+    }
+    var bw=0;
+    cols.forEach(function(x,idx){if(x.total>bw){bw=x.total;bestI=idx;}tot+=x.total;});
+    meta='අවසන් සති 4';
+    trend=trendChip(sums.c28,sums.p28);
+    if(tot===0)empty='මෙම කාල සීමාව තුළ තරු නැත';
+  }else{
+    var tk=todayStr(),mon=mondayOf(new Date()),best=0;
+    for(i=0;i<7;i++){
+      d=addDays(mon,i);
+      var k=dkey(d),fut=(k>tk);
+      cc=fut?{bio:0,phy:0,che:0,total:0}:(cm[k]||{bio:0,phy:0,che:0,total:0});
+      cols.push({segs:[{s:'bio',n:cc.bio},{s:'phy',n:cc.phy},{s:'che',n:cc.che}],total:cc.total,
+        lbl:HM_LAB[i],dim:fut});
+      if(!fut&&cc.total>best){best=cc.total;bestI=cols.length-1;}
+      tot+=cc.total;
+    }
+    meta='මෙම සතියේ · සඳු – ඉරි';
+    trend=trendChip(sums.cw,sums.pw);
+    if(tot===0)empty='මෙම කාල සීමාව තුළ තරු නැත';
+  }
+  var Lmax=0;cols.forEach(function(x){if(x.total>Lmax)Lmax=x.total;});
+  var nm=(Lmax<=0)?4:(Math.floor(Lmax/4)+1)*4;
+  var yax='',q;
+  for(q=0;q<=4;q++)yax+='<span style="bottom:'+(q*25)+'%">'+(nm*q/4)+'</span>';
+  var grid='';
+  for(q=1;q<=4;q++)grid+='<div class="gl" style="bottom:'+(q*25)+'%"></div>';
+  var avgLine='',avgChip='';
+  if(!isDaily&&tot>0){
+    var av=tot/cols.length;
+    avgLine='<div class="avgline" style="bottom:'+(av/nm*100).toFixed(2)+'%"></div>';
+    avgChip='<span class="avgchip">සාමාන්‍ය '+fnum(av)+'</span>';
+  }
+  var bars='',xlab='';
+  cols.forEach(function(c,idx){
+    var stackH=(c.total/nm*100).toFixed(2),inner;
+    if(c.total>0){
+      if(isDaily){
+        inner='<div class="bstack" style="height:'+stackH+'%;width:3.8rem;background:'+c.col+';border-radius:.25rem .25rem 0 0"></div>';
+      }else{
+        var segs='',vis=[];
+        c.segs.forEach(function(g){if(g.n>0)vis.push(g);});
+        vis.forEach(function(g,gi){
+          segs+='<div class="sg'+(gi===vis.length-1?' top':'')+'" style="height:'+(g.n/c.total*100).toFixed(2)+'%;background:'+SUBJ[g.s].color+'"></div>';
+        });
+        inner='<div class="bstack" style="height:'+stackH+'%">'+segs+'</div>';
+      }
+    }else{
+      inner='<div class="bstub"></div>';
+    }
+    var gold=!isDaily&&idx===bestI&&c.total>0;
+    var vcls='bval'+(c.total===0?' zero':(gold?' gold':''));
+    bars+='<div class="col"'+(c.dim?' style="opacity:.45"':'')+'>'+inner
+      +'<span class="'+vcls+'" style="bottom:calc('+stackH+'% + 0.3rem)">'+(gold?'★ ':'')+c.total+'</span></div>';
+    xlab+='<span>'+c.lbl+'</span>';
+  });
+  var tabs=[['daily','දිනපතා'],['weekly','සතිපතා'],['monthly','මාසික']].map(function(t){
+    return '<button class="seg'+(S.tab===t[0]?' active':'')+'" onclick="BZ.tab(\''+t[0]+'\')">'+t[1]+'</button>';
+  }).join('');
+  var legend=ORDER.map(function(s){
+    return '<span class="litem"><span class="lsq" style="background:'+SUBJ[s].color+'"></span>'+SUBJ[s].legend+'</span>';
+  }).join('');
+  return '<div class="card"><div class="ct">ප්‍රගති ප්‍රස්ථාරය</div>'
+    +'<div class="segs">'+tabs+'</div>'
+    +'<div class="chartmeta"><span class="cmeta">'+meta+'</span>'
+    +'<span class="mright">'+avgChip+trend+'</span></div>'
+    +'<div class="plotrow"><div class="yax">'+yax+'</div>'
+    +'<div class="plot'+(isMonthly?' monthly':'')+'">'+grid+avgLine
+    +'<div class="barsrow">'+bars+'</div>'
+    +(empty?'<div class="plot-empty">'+empty+'</div>':'')
+    +'</div></div>'
+    +'<div class="xrow">'+xlab+'</div>'
+    +'<div class="legend">'+legend+'</div></div>';
+}
+
+function stcell(v,l){return '<div class="stcell"><div class="stval">'+v+'</div><div class="stlbl">'+l+'</div></div>';}
+
+function heatHTML(cm){
+  var today=new Date(),off=(today.getDay()+6)%7;
+  var start=addDays(today,-(off+14*7));
+  var tk=todayStr();
+  var grid='',active=0,seen={};
+  for(var r=0;r<7;r++){
+    grid+='<div class="hlab">'+HM_LAB[r]+'</div>';
+    for(var w=0;w<15;w++){
+      var d=addDays(start,w*7+r),k=dkey(d);
+      if(k>tk){grid+='<div class="hcell"></div>';continue;}
+      var c=cm[k],n=c?c.total:0;
+      var cls=(n===0)?'hc0':(n<=2)?'hc1':(n<=4)?'hc2':(n<=6)?'hc3':'hc4';
+      if(n>0&&!seen[k]){seen[k]=1;active++;}
+      grid+='<div class="hcell '+cls+(k===tk?' today':'')+'" title="'+dots(k)+' — තරු '+n+'"></div>';
+    }
+  }
+  var sw=['#e8ecef','#c9ecd9','#7fd8ab','#34bd82','#0f8f5b'].map(function(c){
+    return '<span class="hsw" style="background:'+c+'"></span>';
+  }).join('');
+  return '<div class="card heatcard"><div class="hhead"><div><div class="ct">ඉගෙනුම් සිතියම</div><div class="csub">අවසන් සති 15</div></div>'
+    +'<span class="hpill">දින '+active+'</span></div>'
+    +'<div class="hgrid">'+grid+'</div>'
+    +'<div class="hleg"><span>අඩු</span>'+sw+'<span>වැඩි</span></div></div>';
+}
+
+function insItem(color,text){
+  return '<div class="ins"><span class="idot" style="background:'+color+'"></span><span>'+text+'</span></div>';
+}
+function insightsHTML(cm){
+  var head='<div class="card"><div class="ct">ස්වයංක්‍රීය විශ්ලේෂණ</div><div class="csub">ඔබේ දත්ත වලින් සෑදේ</div>';
+  var totalDaysActive=Object.keys(cm).filter(function(k){return cm[k].total>0;}).length;
+  var d30Active=0;
+  for(var i=0;i<30;i++){
+    if(cm[dkey(addDays(new Date(),-i))]&&cm[dkey(addDays(new Date(),-i))].total>0)d30Active++;
+  }
+  if(S.stars.length===0){
+    return head+'<div class="ins gray" style="margin-top:.3rem"><span class="idot" style="background:#c4d4c6"></span>'
+      +'<span>තරු එකතු කරන විට විශ්ලේෂණ මෙතැන පෙනේ</span></div></div>';
+  }
+  var items='',per=perSubject();
+  var strong='bio';ORDER.forEach(function(s){if(per[s]>per[strong])strong=s;});
+  items+=insItem(SUBJ[strong].color,'ශක්තිමත්ම විෂය: '+SUBJ[strong].full+' — තරු '+per[strong]);
+  var avg=sumBack(cm,7)/7;
+  items+=insItem('#3b82f6','දිනකට සාමාන්‍යය: '+fnum(avg)+' තරු (දින 7)');
+  items+=insItem('#10b981','වාර්තාගත දින ගණන: දින '+totalDaysActive);
+  items+=insItem('#8b5cf6','දින 30න් එකක් සක්‍රීයයි: දින '+d30Active+' (ක්‍රියාකාරී)');
+  var stk=streakOf(cm);
+  if(stk>=3)items+=insItem('#f59e0b','අඛණ්ඩ දින '+stk+'ක්! විශිෂ්ටයි');
+  return head+'<div style="margin-top:.3rem">'+items+'</div></div>';
+}
+
+function renderProgress(){
+  var el=$('view-progress');if(!el)return;
+  var cm=countMap();
+  var todayC=(cm[todayStr()]||{total:0}).total;
+  var c30=sumBack(cm,30);
+  var wt=weekTotals(cm);
+  var sums={cw:wt.cur,pw:wt.prev,c28:sumBack(cm,28),p28:sumOffset(cm,28,55)};
+  var stk=streakOf(cm);
+  var html='<div class="card" style="padding:.8rem .4rem"><div class="strip">'
+    +stcell(todayC,'අද')+stcell(wt.cur,'මෙම සතියේ')+stcell(c30,'මෙම මාසයේ')+stcell(stk,'අඛණ්ඩ දින')
+    +'</div></div>';
+  html+=chartHTML(cm,sums);
+  var a=weekCount(cm),b=S.goal,ok=a>=b;
+  var gp=Math.min(100,Math.floor(a/b*100));
+  var gtext=ok?'ඉලක්කය සපුරාලා! ':'මෙම සතියේ '+a+'/'+b+' තරු · '+gp+'%';
+  html+='<div class="card"><div class="ct">සතියේ ඉලක්කය</div><div class="csub">අරමුණක් තබාගන්න</div>'
+    +'<div class="stepper"><button class="stbtn" onclick="BZ.goal(-1)" aria-label="අඩු කරන්න">−</button>'
+    +'<span class="stvalbig">'+b+'</span>'
+    +'<button class="stbtn" onclick="BZ.goal(1)" aria-label="වැඩි කරන්න">+</button></div>'
+    +'<div class="goaltrack"><div class="goalfill'+(ok?' gold':'')+'" style="width:'+gp+'%"></div></div>'
+    +'<div class="gtext'+(ok?' gold':'')+'">'+gtext+'</div></div>';
+  var C=2*Math.PI*38,acc=0,arcs='',per=perSubject(),totAll=S.stars.length;
+  ORDER.forEach(function(s){
+    var n=per[s];if(n<=0||totAll<=0)return;
+    var len=(n/totAll)*C;
+    arcs+='<circle cx="50" cy="50" r="38" fill="none" stroke="'+SUBJ[s].color+'" stroke-width="12" '
+      +'stroke-dasharray="'+len.toFixed(2)+' '+C.toFixed(2)+'" stroke-dashoffset="'+(-acc).toFixed(2)+'"/>';
+    acc+=len;
+  });
+  html+='<div class="card"><div class="ct">විෂය ව්‍යාප්තිය</div><div class="csub">මුළු තරු අතර බෙදීම</div>'
+    +'<div class="donutrow"><div class="dwrap">'
+    +'<svg style="width:8.2rem;height:8.2rem" viewBox="0 0 100 100" aria-hidden="true">'
+    +'<circle cx="50" cy="50" r="38" fill="none" stroke="#e8ecef" stroke-width="12"/>'
+    +'<g transform="rotate(-90 50 50)">'+arcs+'</g></svg>'
+    +'<div class="dc"><b>'+totAll+'</b><span>මුළු තරු</span></div></div><div class="dlegend">';
+  ORDER.forEach(function(s){
+    var n=per[s],p=(totAll>0)?Math.round(n/totAll*100):0;
+    html+='<div class="dlrow"><span class="lsq" style="background:'+SUBJ[s].color+'"></span>'
+      +'<span class="dlname">'+SUBJ[s].legend+'</span><span class="dlpct">'+p+'%</span><span class="dlct">'+n+'</span></div>';
+  });
+  html+='</div></div></div>';
+  html+=heatHTML(cm);
+  html+=insightsHTML(cm);
+  el.innerHTML=html;
+}
+
+function renderAch(){
+  var el=$('view-ach');if(!el)return;
+  checkTiers();
+  var cm=countMap(),total=S.stars.length,stk=streakOf(cm),per=perSubject();
+  var mc=['bronze','silver','gold'].filter(function(k){return S.medals[k];}).length;
+  var html='<div class="card" style="padding:.8rem .4rem"><div class="strip c3">'
+    +stcell(total,'මුළු තරු')+stcell(stk,'අඛණ්ඩ දින')+stcell(mc+'/3','පදක්කම්')
+    +'</div></div>';
+  html+='<div class="card" style="padding:.4rem .9rem">';
+  ORDER.forEach(function(s){
+    html+='<div class="subrow"><span class="sq" style="background:'+SUBJ[s].color+'"></span>'+SUBJ[s].full
+      +'<span class="subct">'+per[s]+'</span></div>';
+  });
+  html+='</div><div class="medals-h">පදක්කම් එකතුව</div>';
+  MEDALS.forEach(function(m){
+    var got=S.medals[m.id],status;
+    if(got)status='<span class="got">✓ ලැබුණා · '+dots(dkey(new Date(got)))+'</span>';
+    else status='<span class="locktxt">'+LOCK_SVG+' අගුලු දමා ඇත (අවශ්‍ය: '+m.th+')</span>';
+    html+='<div class="card medalrow'+(got?'':' locked')+'"'+(got?' style="border-left:.35rem solid '+m.c[0]+'"':'')+'>'
+      +'<span class="medalwrap">'+medalSVG(m,'4rem')+'</span>'
+      +'<span class="minfo"><span class="mtitle">'+m.si+'</span><span class="men">'+m.en+'</span>'+status+'</span></div>';
+  });
+  var remind='';
+  if(lastBackup&&(total-lastBackup.stars)>=5){
+    remind='<div class="rwarn"><span>⚠</span><span>අලුත් තරු '+(total-lastBackup.stars)+'ක් එකතු විය — නැවත Backup කරන්න!</span></div>';
+  }
+  html+='<div class="card" style="padding:.7rem .9rem"><div class="bkrow">'
+    +'<svg style="width:1rem;height:1rem" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="9.5" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>'
+    +'<span class="bkttl">දත්ත ආරක්ෂාව</span><span class="bksp"></span>'
+    +'<button class="bkpill green" onclick="BZ.backup()"><svg style="width:.85rem;height:.85rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10.5L12 15.5l5-5"/><path d="M4.5 19.5h15"/></svg>Backup</button>'
+    +'<button class="bkpill white" onclick="BZ.restorePick()"><svg style="width:.85rem;height:.85rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20V9M7 13.5L12 8.5l5 5"/><path d="M4.5 4.5h15"/></svg>Restore</button>'
+    +'</div>'
+    +remind
+    +'<div class="bkmnote">Backup file එකට දත්ත සුරැකගෙන අලුත් phone එකේ Restore ඔබන්න</div>'
+    +'</div>';
+  el.innerHTML=html;
+}
+
+function renderAll(){
+  safeRender('countdown',renderCountdown);
+  safeRender('home',renderHome);
+  safeRender('progress',renderProgress);
+  safeRender('ach',renderAch);
+}
+
+function flyDot(fromBtn,color,targetEl,done){
+  var fin=false;
+  function fin2(){if(!fin){fin=true;try{done();}catch(e){}}}
+  try{
+    if(reduced||typeof fromBtn.animate!=='function'){fin2();return;}
+    var r=fromBtn.getBoundingClientRect();
+    var sx=r.left+r.width/2,sy=r.top+r.height/2,ex=sx,ey=sy-140;
+    if(targetEl){
+      var t=targetEl.getBoundingClientRect();
+      if(t.width>0){ex=t.left+t.width/2;ey=t.top+t.height/2;}
+    }
+    var d=document.createElement('div');
+    d.className='flydot';d.style.background=color;
+    d.style.left=sx+'px';d.style.top=sy+'px';
+    document.body.appendChild(d);
+    var mx=(sx+ex)/2,my=Math.min(sy,ey)-70;
+    var an=d.animate([
+      {transform:'translate(-50%,-50%) translate(0px,0px)'},
+      {transform:'translate(-50%,-50%) translate('+(mx-sx).toFixed(1)+'px,'+(my-sy).toFixed(1)+'px)',offset:.5},
+      {transform:'translate(-50%,-50%) translate('+(ex-sx).toFixed(1)+'px,'+(ey-sy).toFixed(1)+'px)'}
+    ],{duration:430,easing:'cubic-bezier(.3,.6,.45,1)'});
+    an.onfinish=function(){try{d.remove();}catch(e){}fin2();};
+    setTimeout(fin2,700);
+  }catch(e){fin2();}
+}
+function confetti(tierColor){
+  try{
+    var wrap=$('confettiWrap');if(!wrap||typeof document.createElement('div').animate!=='function')return;
+    var colors=['#10b981','#3b82f6','#8b5cf6',tierColor];
+    var cx=window.innerWidth/2,cy=window.innerHeight*0.26;
+    for(var i=0;i<40;i++){
+      var p=document.createElement('div');
+      p.className='cf';
+      p.style.background=colors[i%4];
+      p.style.left=cx+'px';p.style.top=cy+'px';
+      wrap.appendChild(p);
+      var dx=(Math.random()-0.5)*Math.min(360,window.innerWidth*0.85);
+      var up=-(80+Math.random()*130);
+      var fall=160+Math.random()*160;
+      var rot=Math.random()*720-360;
+      var dur=1400+Math.random()*800;
+      var an=p.animate([
+        {transform:'translate(-50%,-50%) translate(0,0) rotate(0deg)',opacity:1},
+        {transform:'translate(-50%,-50%) translate('+(dx*0.55).toFixed(0)+'px,'+up.toFixed(0)+'px) rotate('+(rot*0.5).toFixed(0)+'deg)',opacity:1,offset:0.45},
+        {transform:'translate(-50%,-50%) translate('+dx.toFixed(0)+'px,'+fall.toFixed(0)+'px) rotate('+rot.toFixed(0)+'deg)',opacity:0.9}
+      ],{duration:dur,easing:'cubic-bezier(.2,.6,.35,1)',fill:'forwards'});
+      an.onfinish=(function(el){return function(){try{el.remove();}catch(e){}};})(p);
+    }
+  }catch(e){}
+}
+
+function openExam(){
+  var ov=$('examOverlay');if(!ov)return;
+  var edit=S.welcomed;
+  var wh=$('welHead'),eh=$('edHead'),xc=$('examClose'),sb=$('examSaveBtn');
+  if(wh)wh.style.display=edit?'none':'block';
+  if(eh)eh.style.display=edit?'block':'none';
+  if(xc)xc.style.display=edit?'flex':'none';
+  if(sb)sb.textContent=edit?'සුරකින්න':'ආරම්භ කරන්න';
+  var inp=$('examInput');
+  if(inp){inp.value=S.examDate||'';inp.min=todayStr();}
+  var err=$('examErr');if(err)err.style.display='none';
+  ov.style.display='flex';
+}
+function celebrate(tierId){
+  var m=null;
+  MEDALS.forEach(function(x){if(x.id===tierId)m=x;});
+  if(!m)return;
+  var h=$('tierMedal');
+  if(h)h.innerHTML=medalSVG(m,'5rem');
+  var t=$('tierTitle');if(t)t.textContent=m.tier+' මට්ටම අගුලු හරින ලදී!';
+  var b=$('tierBody');if(b)b.textContent=m.msg;
+  var ov=$('tierOverlay');if(ov)ov.style.display='flex';
+  if(!reduced)confetti(m.c[0]);
+}
+
+function markBackedUp(){
+  lastBackup={stars:S.stars.length,t:Date.now()};
+  saveLastBackup();
+}
+function backup(){
+  try{
+    var data={
+      app:'biozone', v:1, saved:new Date().toISOString(),
+      stars:S.stars, medals:S.medals,
+      examDate:S.examDate||'', goal:S.goal, welcomed:!!S.welcomed
+    };
+    var fname='Biozone-Backup-'+dots(todayStr())+'.json';
+    if(window.BiozoneAndroid&&typeof window.BiozoneAndroid.shareBackup==='function'){
+      try{
+        window.BiozoneAndroid.shareBackup(JSON.stringify(data),fname);
+        markBackedUp();toast('✓ Backup එක යවන ලදී');
+        return;
+      }catch(e){}
+    }
+    var blob=new Blob([JSON.stringify(data)],{type:'application/json'});
+    var canShare=false;
+    try{
+      var tmp=new File([blob],fname,{type:'application/json'});
+      if(navigator.canShare&&navigator.canShare({files:[tmp]})){
+        canShare=true;
+        navigator.share({files:[tmp],title:'Biozone Backup',text:'Biozone Backup — තරු '+S.stars.length})
+          .then(function(){markBackedUp();toast('✓ Backup එක යවන ලදී');})
+          .catch(function(){});
+      }
+    }catch(e){canShare=false;}
+    if(!canShare){
+      var url=URL.createObjectURL(blob);
+      var a=document.createElement('a');
+      a.href=url;a.download=fname;
+      document.body.appendChild(a);a.click();
+      setTimeout(function(){try{document.body.removeChild(a);URL.revokeObjectURL(url);}catch(e){}},400);
+      markBackedUp();
+      toast('✓ Backup file එක සුරැකිණි');
+    }
+  }catch(e){showErr('Backup → '+e.message);}
+}
+
+function restorePick(){
+  try{
+    var inp=document.createElement('input');
+    inp.type='file';
+    inp.accept='.json,application/json,.txt';
+    inp.style.display='none';
+    inp.onchange=function(){BZ.restoreFile(inp);};
+    document.body.appendChild(inp);
+    inp.click();
+    setTimeout(function(){try{document.body.removeChild(inp);}catch(e){}},60000);
+  }catch(e){showErr(e.message);}
+}
+function restoreFile(inp){
+  try{
+    var f=inp&&inp.files&&inp.files[0];
+    if(!f){toast('File එකක් තෝරන්නේ නැත');return;}
+    var rd=new FileReader();
+    rd.onload=function(){
+      try{
+        var o=JSON.parse(String(rd.result));
+        if(!o||o.app!=='biozone'||!Array.isArray(o.stars)){toast('⚠ වැරදි Backup file එකක්');return;}
+        var stars=o.stars.filter(validStar);
+        var medals={};
+        if(o.medals&&typeof o.medals==='object'&&!Array.isArray(o.medals)){
+          ['bronze','silver','gold'].forEach(function(k){if(typeof o.medals[k]==='number'&&isFinite(o.medals[k]))medals[k]=o.medals[k];});
+        }
+        var exam=(typeof o.examDate==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(o.examDate))?o.examDate:'';
+        var goal=isFinite(parseInt(o.goal,10))?clamp(parseInt(o.goal,10),1,99):10;
+        pendingRestore={stars:stars,medals:medals,examDate:exam,goal:goal};
+        var mc=['bronze','silver','gold'].filter(function(k){return medals[k];}).length;
+        var sum=$('restoreSummary');
+        if(sum)sum.innerHTML='📄 <b>'+String(f.name).replace(/[<>&]/g,'')+'</b><br>තරු <b>'+stars.length+'</b> · පදක්කම් <b>'+mc+'</b>'
+          +(exam?('<br>පරීක්ෂා දිනය: <b>'+dots(exam)+'</b>'):'<br>පරීක්ෂා දිනය: <b>සකසා නැත</b>');
+        var ov=$('restoreOverlay');if(ov)ov.style.display='flex';
+      }catch(err){toast('⚠ Backup file එක කියවිය නොහැක');}
+    };
+    rd.onerror=function(){toast('⚠ File එක කියවීම අසාර්ථක විය');};
+    rd.readAsText(f);
+  }catch(e){showErr(e.message);}
+}
+function confirmRestore(){
+  try{
+    if(!pendingRestore){closeRestore();return;}
+    S.stars=pendingRestore.stars;
+    S.medals=pendingRestore.medals;
+    S.examDate=pendingRestore.examDate;
+    S.goal=pendingRestore.goal;
+    S.welcomed=true;
+    saveStars();saveMedals();saveGoal();
+    try{lsSet('biozone.examDate',S.examDate);}catch(e){}
+    try{lsSet('biozone.welcomed','1');}catch(e){}
+    pendingRestore=null;
+    closeRestore();
+    renderAll();
+    toast('✓ දත්ත සාර්ථකව ආපසු ලබාගත්තා!');
+  }catch(e){showErr(e.message);}
+}
+function closeRestore(){
+  try{pendingRestore=null;var ov=$('restoreOverlay');if(ov)ov.style.display='none';}catch(e){}
+}
+
+function go(v){
+  if(v!=='home'&&v!=='progress'&&v!=='ach')return;
+  S.view=v;
+  ['home','progress','ach'].forEach(function(x){
+    var sec=$('view-'+x);if(sec)sec.style.display=(x===v)?'block':'none';
+    var nb=$('nav-'+x);
+    if(nb){if(x===v)nb.classList.add('active');else nb.classList.remove('active');}
+  });
+  var mn=$('main');if(mn)mn.scrollTop=0;
+  renderAll();
+}
+function tab(m){
+  if(m!=='daily'&&m!=='weekly'&&m!=='monthly')return;
+  S.tab=m;
+  safeRender('progress',renderProgress);
+}
+function add(s,btn){
+  if(s!=='bio'&&s!=='phy'&&s!=='che')return;
+  var st={s:s,t:Date.now()};
+  S.stars.push(st);saveStars();
+  var newly=checkTiers();
+  renderAll();
+  var el=document.querySelector('#starField .starb[data-t="'+st.t+'"]');
+  var target=el;
+  if(!target){var f=$('starField');if(f)target=f;}
+  var done=function(){
+    if(el&&el.isConnected){
+      el.style.visibility='';
+      if(!reduced)el.classList.add('pop');
+    }
+    if(newly.length)celebrate(newly[newly.length-1]);
+  };
+  if(el&&!reduced&&btn){
+    el.style.visibility='hidden';
+    flyDot(btn,SUBJ[s].color,target,done);
+  }else done();
+}
+function del(el){
+  if(!el)return;
+  var i=parseInt(el.getAttribute('data-i'),10);
+  var item=S.stars[i];
+  if(!item)return;
+  var finish=function(){
+    var idx=S.stars.indexOf(item);
+    if(idx<0)return;
+    S.stars.splice(idx,1);saveStars();
+    undoItem={item:item,idx:idx};
+    checkTiers();
+    renderAll();
+    toast('තරුව ඉවත් කළා',true);
+  };
+  if(reduced){finish();return;}
+  el.style.transition='transform .18s ease,opacity .18s ease';
+  el.style.transform='scale(0)';
+  el.style.opacity='0';
+  setTimeout(finish,185);
+}
+function more(){
+  S.expanded=true;
+  safeRender('home',renderHome);
+}
+function goal(d){
+  S.goal=clamp(S.goal+d,1,99);
+  saveGoal();
+  safeRender('progress',renderProgress);
+}
+function editExam(){try{openExam();}catch(e){showErr(e.message);}}
+function closeExam(){try{if(!S.welcomed)return;var ov=$('examOverlay');if(ov)ov.style.display='none';}catch(e){}}
+function saveExam(){
+  try{
+    var inp=$('examInput'),v=inp?inp.value:'';
+    var err=$('examErr');
+    if(!(v&&v>=todayStr())){if(err)err.style.display='block';return;}
+    var first=!S.welcomed;
+    S.examDate=v;lsSet('biozone.examDate',v);
+    S.welcomed=true;lsSet('biozone.welcomed','1');
+    var ov=$('examOverlay');if(ov)ov.style.display='none';
+    safeRender('countdown',renderCountdown);
+    toast(first?'ආරම්භ කරමු! සුබ පැතුම්!':'පරීක්ෂා දිනය යාවත්කාලීන විය');
+  }catch(e){showErr(e.message);}
+}
+function closeTier(){try{var ov=$('tierOverlay');if(ov)ov.style.display='none';}catch(e){}}
+function toastAct(){
+  try{
+    if(!undoItem)return;
+    var idx=Math.min(undoItem.idx,S.stars.length);
+    S.stars.splice(idx,0,undoItem.item);
+    saveStars();undoItem=null;
+    checkTiers();
+    renderAll();
+    toast('තරුව නැවත එකතු විය');
+  }catch(e){showErr(e.message);}
+}
+function backdrop(el,ev){
+  try{
+    if(!ev||ev.target!==el)return;
+    if(el.id==='tierOverlay')closeTier();
+    else if(el.id==='examOverlay')closeExam();
+    else if(el.id==='restoreOverlay')closeRestore();
+  }catch(e){}
+}
+window.BZ={go:go,tab:tab,add:add,del:del,goal:goal,more:more,editExam:editExam,closeExam:closeExam,saveExam:saveExam,closeTier:closeTier,toastAct:toastAct,backdrop:backdrop,
+  backup:backup,restorePick:restorePick,restoreFile:restoreFile,confirmRestore:confirmRestore,closeRestore:closeRestore};
+
+function registerSW(){
+  try{
+    if(location.protocol!=='http:'&&location.protocol!=='https:')return;
+    if(!navigator.serviceWorker||!navigator.serviceWorker.register)return;
+    navigator.serviceWorker.register('./sw.js',{updateViaCache:'all'}).catch(function(){});
+  }catch(e){}
+}
+function blockInstall(){
+  try{
+    window.addEventListener('beforeinstallprompt',function(e){
+      try{if(e&&e.preventDefault)e.preventDefault();}catch(err){}
+    });
+  }catch(e){}
+}
+
+function boot(){
+  try{loadState();}catch(e){}
+  try{registerSW();}catch(e){}
+  try{blockInstall();}catch(e){}
+  try{
+    var t='__bz_t';
+    window.localStorage.setItem(t,'1');
+    window.localStorage.removeItem(t);
+  }catch(e){
+    try{setTimeout(function(){toast('⚠ මෙම browser එකේ data සුරැකීම සීමිතයි (Private mode?)');},900);}catch(e2){}
+  }
+  try{
+    var lastDay=todayStr();
+    setInterval(function(){
+      var nd=todayStr();
+      if(nd!==lastDay){lastDay=nd;S.expanded=false;checkTiers();renderAll();}
+      safeRender('countdown',renderCountdown);
+    },30000);
+  }catch(e){}
+  try{
+    document.addEventListener('visibilitychange',function(){
+      if(document.visibilityState==='visible'){
+        try{
+          var nd=todayStr();
+          if(nd!==lastDay){lastDay=nd;S.expanded=false;}
+        }catch(e){}
+        checkTiers();
+        safeRender('countdown',renderCountdown);
+        renderAll();
+      }
+    });
+  }catch(e){}
+  try{
+    document.addEventListener('keydown',function(e){
+      try{
+        if(e.key==='Escape'){
+          var t=$('tierOverlay');
+          if(t&&t.style.display!=='none'){closeTier();return;}
+          var r=$('restoreOverlay');
+          if(r&&r.style.display!=='none'){closeRestore();return;}
+          var x=$('examOverlay');
+          if(x&&x.style.display!=='none')closeExam();
+        }
+      }catch(err){}
+    });
+  }catch(e){}
+  try{
+    window.addEventListener('resize',function(){
+      if(S.view==='progress')safeRender('progress',renderProgress);
+    });
+  }catch(e){}
+  try{go('home');}catch(e){renderAll();}
+  try{if(!S.welcomed)openExam();}catch(e){}
+}
+try{boot();window.__bzLoaded=true;}
+catch(e){showErr('Boot → '+e.message);}
+
+})();
+</script>
+</body>
+</html>
