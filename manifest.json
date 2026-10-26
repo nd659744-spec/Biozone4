@@ -1,0 +1,19 @@
+{
+  "name": "Biozone — A/L Science Progress Companion",
+  "short_name": "Biozone",
+  "description": "ඔබේ A/L ප්‍රගතිය ලඟින් බලාගන්න — සම්පූර්ණයෙන්ම offline වැඩ කරයි",
+  "id": "./",
+  "lang": "si",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#d5e5dc",
+  "theme_color": "#0d8a5f",
+  "categories": ["education", "productivity"],
+  "icons": [
+    { "src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "./icon-maskable.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}
